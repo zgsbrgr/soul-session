@@ -18,3 +18,5 @@ include(":app")
 
 include(":core-ui")
 include(":core-model")
+include(":core-common")
+include(":core-testing")
