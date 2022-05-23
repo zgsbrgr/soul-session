@@ -1,5 +1,5 @@
 
-package com.zgsbrgr.soulsession.ui.theme
+package com.zgsbrgr.soulsession.core.ui.theme
 
 
 import androidx.compose.runtime.Immutable

@@ -1,4 +1,4 @@
-package com.zgsbrgr.soulsession.ui.theme
+package com.zgsbrgr.soulsession.core.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
