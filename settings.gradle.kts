@@ -16,3 +16,5 @@ dependencyResolutionManagement {
 rootProject.name = "soulsession"
 include(":app")
 
+include(":core-ui")
+include(":core-model")
