@@ -35,9 +35,16 @@ android {
     }
 
     buildTypes {
+
         val release by getting {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+        val benchmark by creating {
+            initWith(release)
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks.add("release")
+            proguardFiles("benchmark-rules.pro")
         }
     }
     packagingOptions {
