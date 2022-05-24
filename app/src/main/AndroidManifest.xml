@@ -24,7 +24,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SoulSession">
+        android:theme="@style/Theme.SoulSession"
+        android:name=".SoulSessionApp"
+        >
         <profileable
             android:shell="true"
             tools:targetApi="q" />

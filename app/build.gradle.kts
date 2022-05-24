@@ -19,6 +19,7 @@ plugins {
     id("soulsession.android.application.jacoco")
     kotlin("kapt")
     id("jacoco")
+    id("dagger.hilt.android.plugin")
     id("soulsession.spotless")
 }
 
@@ -28,7 +29,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.zgsbrgr.soulsession.core.testing.SoulSessionTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -62,6 +63,8 @@ android {
 dependencies {
 
     implementation(project(":core-ui"))
+    implementation(project(":core-testing"))
+    implementation(project(":core-network"))
 
     implementation(libs.androidx.core.ktx)
     api(libs.androidx.compose.material3)
@@ -69,5 +72,18 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewModelCompose)
     implementation(libs.androidx.activity.compose)
     debugApi(libs.androidx.compose.ui.tooling)
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    kaptAndroidTest(libs.hilt.compiler)
+
+    // androidx.test is forcing JUnit, 4.12. This forces it to use 4.13
+    configurations.configureEach {
+        resolutionStrategy {
+            force(libs.junit4)
+            // Temporary workaround for https://issuetracker.google.com/174733673
+            force("org.objenesis:objenesis:2.6")
+        }
+    }
 
 }
