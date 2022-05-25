@@ -22,6 +22,7 @@ import kotlinx.serialization.Serializable
 data class NetworkTopic(
     val id: String,
     val title: String,
+    val episodeId: String,
     val description: String,
     val imageUrl: String,
     val startTime: String,
