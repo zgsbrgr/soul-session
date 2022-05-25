@@ -19,6 +19,7 @@ package com.zgsbrgr.soulsession.core.model.data
 data class Topic(
     val id: String,
     val title: String,
+    val episodeId: String,
     val description: String,
     val imageUrl: String,
     val startTime: String,
