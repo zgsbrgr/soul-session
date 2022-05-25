@@ -16,48 +16,45 @@
 
 package com.zgsbrgr.soulsession.core.database.dao.dao
 
-import com.zgsbrgr.soulsession.core.database.model.EpisodeEntity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
 
-/* ktlint-disable max-line-length */
-
-class EpisodeDaoTest : TestDatabase() {
+class TopicDaoTest : TestDatabase() {
 
     @Test
-    fun episodeDao_fetches_episodes() = runTest {
+    fun topicDao_fetches_topics() = runTest {
 
         val episodeEntities = testEpisodes()
-
-        val topicEntityShells = episodeEntities.map(EpisodeEntity::topicEntityShell)
-
         episodeDao.upsertEpisodes(episodeEntities)
 
-        topicDao.insertOrIgnoreTopics(topicEntityShells)
+        val topicEntities = testTopics()
 
-        val savedEpisodeEntities = episodeDao.getEpisodes().first()
+        topicDao.insertOrIgnoreTopics(topicEntities)
+
+        val savedTopicEntities = topicDao.getTopics().first()
 
         Assert.assertEquals(
             listOf("0", "1", "2"),
-            savedEpisodeEntities.map {
-                it.episode.id
+            savedTopicEntities.map {
+                it.id
             }
         )
     }
 
     @Test
-    fun episodeDao_deletes_episodes() = runTest {
-
+    fun topicDao_deletes_topics() = runTest {
         val episodeEntities = testEpisodes()
+        episodeDao.upsertEpisodes(episodeEntities)
 
-        episodeDao.insertOrIgnoreEpisodes(episodeEntities)
+        val topicEntities = testTopics()
+        topicDao.insertOrIgnoreTopics(topicEntities)
 
-        episodeDao.deleteEpisodes(listOf("0", "1", "2"))
+        topicDao.deleteTopics(listOf("0", "1", "2"))
 
-        val savedEpisodeEntities = episodeDao.getEpisodes().first()
+        val savedTopicEntities = topicDao.getTopics().first()
 
-        Assert.assertTrue(savedEpisodeEntities.isEmpty())
+        Assert.assertTrue(savedTopicEntities.isEmpty())
     }
 }
