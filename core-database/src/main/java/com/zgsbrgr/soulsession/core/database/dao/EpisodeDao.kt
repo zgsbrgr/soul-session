@@ -36,6 +36,9 @@ interface EpisodeDao {
     @Query(value = "SELECT * FROM episodes")
     fun getEpisodes(): Flow<List<EpisodeWithTopic>>
 
+    @Query(value = "SELECT * FROM topics")
+    fun getTopics(): Flow<List<TopicEntity>>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertOrIgnoreEpisodes(episodeEntities: List<EpisodeEntity>): List<Long>
 
@@ -56,7 +59,7 @@ interface EpisodeDao {
         coroutineScope {
             episodeWithTopics.forEach { episodeWithTopic ->
                 launch {
-                    insertOrIgnoreEpisode(episodeWithTopic.entity)
+                    insertOrIgnoreEpisode(episodeWithTopic.episode)
                 }
                 launch {
                     insertOrIgnoreTopic(episodeWithTopic.topic)
@@ -72,7 +75,7 @@ interface EpisodeDao {
                 launch {
                     launch {
                         upsert(
-                            item = entity.entity,
+                            item = entity.episode,
                             insert = ::insertOrIgnoreEpisode,
                             update = ::updateEpisode
                         )

@@ -20,7 +20,7 @@ import androidx.room.Embedded
 import androidx.room.Relation
 
 data class EpisodeWithTopic(
-    @Embedded val entity: EpisodeEntity,
+    @Embedded val episode: EpisodeEntity,
     @Relation(
         parentColumn = "id",
         entityColumn = "episodeId"

@@ -18,10 +18,19 @@ package com.zgsbrgr.soulsession.core.database.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "topics"
+    tableName = "topics",
+    foreignKeys = [
+        ForeignKey(
+            entity = EpisodeEntity::class,
+            parentColumns = arrayOf("id"),
+            childColumns = arrayOf("episodeId"),
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
 )
 data class TopicEntity(
     @PrimaryKey
