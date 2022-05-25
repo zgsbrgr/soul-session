@@ -20,14 +20,12 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.zgsbrgr.soulsession.core.database.dao.EpisodeDao
 import com.zgsbrgr.soulsession.core.database.model.EpisodeEntity
-import com.zgsbrgr.soulsession.core.database.model.EpisodeWithTopic
 import com.zgsbrgr.soulsession.core.database.model.TopicEntity
 
 @Database(
     entities = [
         EpisodeEntity::class,
-        TopicEntity::class,
-        EpisodeWithTopic::class
+        TopicEntity::class
     ],
     version = 1,
     exportSchema = false

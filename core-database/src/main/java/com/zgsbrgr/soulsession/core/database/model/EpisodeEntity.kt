@@ -18,7 +18,6 @@ package com.zgsbrgr.soulsession.core.database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.zgsbrgr.soulsession.core.model.data.Topic
 
 @Entity(
     tableName = "episodes"
@@ -27,6 +26,5 @@ data class EpisodeEntity(
     @PrimaryKey
     val id: String,
     val title: String,
-    val date: String,
-    val topic: Topic
+    val date: String
 )
