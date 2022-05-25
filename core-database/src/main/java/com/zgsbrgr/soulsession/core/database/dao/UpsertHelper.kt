@@ -17,13 +17,20 @@
 package com.zgsbrgr.soulsession.core.database.dao
 
 suspend fun <T> upsert(
-    item: T,
-    insert: suspend (T) -> Long,
-    update: suspend (T) -> Unit
+    items: List<T>,
+    insertMany: suspend (List<T>) -> List<Long>,
+    updateMany: suspend (List<T>) -> Unit
 ) {
 
-    val insertResult = insert(item)
+    val insertResult = insertMany(items)
 
-    if (insertResult == -1L)
-        update(item)
+    val updateList = items.zip(insertResult)
+        .mapNotNull { (item, insert) ->
+            if (insert == -1L)
+                item
+            else
+                null
+        }
+    if (updateList.isNotEmpty())
+        updateMany(updateList)
 }

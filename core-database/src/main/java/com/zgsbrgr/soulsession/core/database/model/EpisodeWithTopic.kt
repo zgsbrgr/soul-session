@@ -18,6 +18,7 @@ package com.zgsbrgr.soulsession.core.database.model
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import com.zgsbrgr.soulsession.core.model.data.Episode
 
 data class EpisodeWithTopic(
     @Embedded val episode: EpisodeEntity,
@@ -26,4 +27,11 @@ data class EpisodeWithTopic(
         entityColumn = "episodeId"
     )
     val topic: TopicEntity
+)
+
+fun EpisodeWithTopic.asExternalModel() = Episode(
+    id = episode.id,
+    title = episode.title,
+    date = episode.date,
+    topic = topic.asExternalModel()
 )

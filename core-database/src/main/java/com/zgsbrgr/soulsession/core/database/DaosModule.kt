@@ -17,6 +17,7 @@
 package com.zgsbrgr.soulsession.core.database
 
 import com.zgsbrgr.soulsession.core.database.dao.EpisodeDao
+import com.zgsbrgr.soulsession.core.database.dao.TopicDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,4 +31,9 @@ object DaosModule {
     fun providesEpisodeDao(
         database: SoulSessionDatabase
     ): EpisodeDao = database.episodeDao()
+
+    @Provides
+    fun providesTopicDao(
+        database: SoulSessionDatabase
+    ): TopicDao = database.topicDao()
 }

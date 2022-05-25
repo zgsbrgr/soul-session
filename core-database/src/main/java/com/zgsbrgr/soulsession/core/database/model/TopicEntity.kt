@@ -20,6 +20,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.zgsbrgr.soulsession.core.model.data.Topic
 
 @Entity(
     tableName = "topics",
@@ -51,4 +52,19 @@ data class TopicEntity(
     val email: String,
     @ColumnInfo(name = "podcast_url")
     val podcastUrl: String
+)
+
+fun TopicEntity.asExternalModel() = Topic(
+    id = id,
+    title = title,
+    episodeId = episodeId,
+    description = description,
+    imageUrl = imageUrl,
+    startTime = startTime,
+    location = location,
+    presenter = presenter,
+    liveUrl = liveUrl,
+    phoneNumber = phoneNumber,
+    email = email,
+    podcastUrl = podcastUrl
 )

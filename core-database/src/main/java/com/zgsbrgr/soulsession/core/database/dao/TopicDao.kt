@@ -22,41 +22,36 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.zgsbrgr.soulsession.core.database.model.EpisodeEntity
-import com.zgsbrgr.soulsession.core.database.model.EpisodeWithTopic
+import com.zgsbrgr.soulsession.core.database.model.TopicEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface EpisodeDao {
+interface TopicDao {
 
-    @Transaction
-    @Query(value = "SELECT * FROM episodes")
-    fun getEpisodes(): Flow<List<EpisodeWithTopic>>
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertOrIgnoreEpisodes(episodeEntities: List<EpisodeEntity>): List<Long>
+    @Query(value = "SELECT * FROM topics")
+    fun getTopics(): Flow<List<TopicEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertOrIgnoreEpisode(episodeEntity: EpisodeEntity): Long
+    suspend fun insertOrIgnoreTopics(topicEntities: List<TopicEntity>): List<Long>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertOrIgnoreTopic(topicEntity: TopicEntity): Long
 
     @Update
-    suspend fun updateEpisodes(episodeEntities: List<EpisodeEntity>)
-
-    @Update
-    suspend fun updateEpisode(episodeEntity: EpisodeEntity)
+    suspend fun updateTopics(topicEntities: List<TopicEntity>)
 
     @Transaction
-    suspend fun upsertEpisodes(entities: List<EpisodeEntity>) = upsert(
-        items = entities,
-        insertMany = ::insertOrIgnoreEpisodes,
-        updateMany = ::updateEpisodes
+    suspend fun upsertTopics(topicEntities: List<TopicEntity>) = upsert(
+        items = topicEntities,
+        insertMany = ::insertOrIgnoreTopics,
+        updateMany = ::updateTopics
     )
 
     @Query(
         value = """
-            DELETE FROM episodes
+            DELETE FROM topics
             WHERE id in (:ids)
         """
     )
-    suspend fun deleteEpisodes(ids: List<String>)
+    suspend fun deleteTopics(ids: List<String>)
 }

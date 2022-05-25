@@ -19,6 +19,7 @@ package com.zgsbrgr.soulsession.core.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.zgsbrgr.soulsession.core.database.dao.EpisodeDao
+import com.zgsbrgr.soulsession.core.database.dao.TopicDao
 import com.zgsbrgr.soulsession.core.database.model.EpisodeEntity
 import com.zgsbrgr.soulsession.core.database.model.TopicEntity
 
@@ -33,4 +34,5 @@ import com.zgsbrgr.soulsession.core.database.model.TopicEntity
 abstract class SoulSessionDatabase : RoomDatabase() {
 
     abstract fun episodeDao(): EpisodeDao
+    abstract fun topicDao(): TopicDao
 }
