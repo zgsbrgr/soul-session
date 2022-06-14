@@ -32,7 +32,7 @@ import retrofit2.http.GET
 
 interface SoulSessionNetworkApi {
 
-    @GET
+    @GET("episodes.json")
     suspend fun getEpisodes(): List<NetworkEpisode>
 }
 
