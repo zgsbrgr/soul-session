@@ -25,6 +25,7 @@ import androidx.room.PrimaryKey
 data class EpisodeEntity(
     @PrimaryKey
     val id: String,
+    val thumbnail: String,
     val title: String,
     val date: String
 )

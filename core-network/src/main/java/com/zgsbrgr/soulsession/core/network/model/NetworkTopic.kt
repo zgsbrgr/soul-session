@@ -16,20 +16,23 @@
 
 package com.zgsbrgr.soulsession.core.network.model
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class NetworkTopic(
     val id: String,
     val title: String,
+    @SerialName("episode_id")
     val episodeId: String,
     val description: String,
-    val imageUrl: String,
-    val startTime: String,
-    val location: String,
-    val presenter: String,
-    val liveUrl: String,
-    val phoneNumber: String,
-    val email: String,
-    val podcastUrl: String
+    val image: String? = null,
+    val start: String? = null,
+    val location: String? = null,
+    val presenter: String? = null,
+    val live: String? = null,
+    val phone: String? = null,
+    val email: String? = null,
+    @SerialName("podcast_url")
+    val podcastUrl: String? = null
 )

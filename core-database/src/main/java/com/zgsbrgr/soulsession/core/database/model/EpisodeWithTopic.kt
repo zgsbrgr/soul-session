@@ -31,6 +31,7 @@ data class EpisodeWithTopic(
 
 fun EpisodeWithTopic.asExternalModel() = Episode(
     id = episode.id,
+    thumbnail = episode.thumbnail,
     title = episode.title,
     date = episode.date,
     topic = topic.asExternalModel()

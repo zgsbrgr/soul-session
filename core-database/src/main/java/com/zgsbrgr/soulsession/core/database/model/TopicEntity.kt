@@ -40,18 +40,18 @@ data class TopicEntity(
     val title: String,
     val description: String,
     @ColumnInfo(name = "image_url")
-    val imageUrl: String,
+    val imageUrl: String?,
     @ColumnInfo(name = "start_time")
-    val startTime: String,
-    val location: String,
-    val presenter: String,
+    val startTime: String?,
+    val location: String?,
+    val presenter: String?,
     @ColumnInfo(name = "live_url")
-    val liveUrl: String,
+    val liveUrl: String?,
     @ColumnInfo(name = "phone_number")
-    val phoneNumber: String,
-    val email: String,
+    val phoneNumber: String?,
+    val email: String?,
     @ColumnInfo(name = "podcast_url")
-    val podcastUrl: String
+    val podcastUrl: String?
 )
 
 fun TopicEntity.asExternalModel() = Topic(
