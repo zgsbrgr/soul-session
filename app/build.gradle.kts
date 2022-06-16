@@ -65,6 +65,9 @@ dependencies {
     implementation(project(":core-ui"))
     implementation(project(":core-testing"))
     implementation(project(":core-network"))
+    implementation(project(":core-navigation"))
+
+    implementation(project(":feature-episodes"))
 
     implementation(libs.androidx.core.ktx)
     api(libs.androidx.compose.material3)
