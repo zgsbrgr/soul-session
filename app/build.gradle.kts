@@ -80,6 +80,9 @@ dependencies {
     kapt(libs.hilt.compiler)
     kaptAndroidTest(libs.hilt.compiler)
 
+    implementation(libs.material3)
+    implementation(libs.androidx.compose.material3.windowSizeClass)
+
     // androidx.test is forcing JUnit, 4.12. This forces it to use 4.13
     configurations.configureEach {
         resolutionStrategy {
