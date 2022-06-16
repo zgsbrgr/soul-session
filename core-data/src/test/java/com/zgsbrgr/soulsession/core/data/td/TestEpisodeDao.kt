@@ -47,7 +47,7 @@ class TestEpisodeDao : EpisodeDao {
         )
     )
 
-    override fun getEpisodes(): Flow<List<EpisodeWithTopic>> =
+    override fun getEpisodesStream(): Flow<List<EpisodeWithTopic>> =
         entitiesStateFlow.map {
             it.map(EpisodeEntity::asEpisodeWithTopic)
         }

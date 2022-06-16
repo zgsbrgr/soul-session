@@ -20,31 +20,45 @@ import com.zgsbrgr.soulsession.core.common.network.Dispatcher
 import com.zgsbrgr.soulsession.core.common.network.SDispatchers.IO
 import com.zgsbrgr.soulsession.core.data.model.asEntity
 import com.zgsbrgr.soulsession.core.database.dao.EpisodeDao
+import com.zgsbrgr.soulsession.core.database.dao.TopicDao
 import com.zgsbrgr.soulsession.core.database.model.EpisodeWithTopic
 import com.zgsbrgr.soulsession.core.database.model.asExternalModel
 import com.zgsbrgr.soulsession.core.model.data.Episode
 import com.zgsbrgr.soulsession.core.network.SoulSessionNetwork
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
-class EpisodeRepositoryImpl(
+class EpisodeRepositoryImpl @Inject constructor(
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
     private val episodeDao: EpisodeDao,
+    private val topicDao: TopicDao,
     private val network: SoulSessionNetwork
 ) : EpisodeRepository {
 
     override suspend fun getEpisodesStream(): Flow<List<Episode>> {
         return withContext(ioDispatcher) {
+            val networkEpisodes = network.getEpisodes()
             episodeDao.upsertEpisodes(
-                network.getEpisodes().map {
+                networkEpisodes.map {
                     it.asEntity()
                 }
             )
-            episodeDao.getEpisodes().map {
+            topicDao.upsertTopics(
+                networkEpisodes.map {
+                    it.topic.asEntity()
+                }
+            )
+            episodeDao.getEpisodesStream().map {
                 it.map(EpisodeWithTopic::asExternalModel)
             }
         }
     }
+
+    override fun getEpisodeStream(id: String): Flow<Episode> =
+        episodeDao.getEpisodeStream(id).map {
+            it.asExternalModel()
+        }
 }

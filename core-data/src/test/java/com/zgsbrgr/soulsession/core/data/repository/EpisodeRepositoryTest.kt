@@ -55,7 +55,7 @@ class EpisodeRepositoryTest {
     fun episodeRepositoryTest_dataFetchedAndSavedToDb_success() {
         runTest(testDispatcher) {
             val fromNetwork = subject.getEpisodesStream().first()
-            val fromDao = episodeDao.getEpisodes().first().map {
+            val fromDao = episodeDao.getEpisodesStream().first().map {
                 it.asExternalModel()
             }
             Assert.assertEquals(

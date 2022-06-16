@@ -21,5 +21,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface EpisodeRepository {
 
+    /**
+     * Gets the episodes as a stream
+     */
     suspend fun getEpisodesStream(): Flow<List<Episode>>
+
+    /**
+     * Gets a specific episode
+     */
+    fun getEpisodeStream(id: String): Flow<Episode>
 }
