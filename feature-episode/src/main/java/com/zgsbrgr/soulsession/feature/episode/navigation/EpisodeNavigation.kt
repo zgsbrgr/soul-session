@@ -14,33 +14,36 @@
  * limitations under the License.
  */
 
-package com.zgsbrgr.soulsession.feature.episodes.navigation
+package com.zgsbrgr.soulsession.feature.episode.navigation
 
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navigation
+import androidx.navigation.navArgument
 import com.zgsbrgr.soulsession.core.navigation.AppNavigationDestination
-import com.zgsbrgr.soulsession.feature.episodes.EpisodesRoute
+import com.zgsbrgr.soulsession.feature.episode.EpisodeRoute
 
-object EpisodesDestination : AppNavigationDestination {
+object EpisodeDestination : AppNavigationDestination {
     override val destination: String
-        get() = "episodes_destination"
-
+        get() = "episode_destination"
     override val route: String
-        get() = "episodes_route"
+        get() = "episode_route"
+    const val episodeIdArg = "episodeId"
 }
 
-fun NavGraphBuilder.episodesGraph(
-    navigateToEpisode: (String) -> Unit,
-    nestedGraphs: NavGraphBuilder.() -> Unit
+fun NavGraphBuilder.episodeGraph(
+    onBackClick: () -> Unit
 ) {
-    navigation(
-        route = EpisodesDestination.route,
-        startDestination = EpisodesDestination.destination
+    composable(
+        route = "${EpisodeDestination.route}/{${EpisodeDestination.episodeIdArg}}",
+        arguments = listOf(
+            navArgument(EpisodeDestination.episodeIdArg) {
+                type = NavType.StringType
+            }
+        )
+
     ) {
-        composable(route = EpisodesDestination.destination) {
-            EpisodesRoute(navigateToEpisode = navigateToEpisode)
-        }
-        nestedGraphs()
+
+        EpisodeRoute(onBackClick = onBackClick)
     }
 }

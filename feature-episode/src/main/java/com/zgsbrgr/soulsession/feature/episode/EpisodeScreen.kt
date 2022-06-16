@@ -14,62 +14,47 @@
  * limitations under the License.
  */
 
-package com.zgsbrgr.soulsession.feature.episodes
+package com.zgsbrgr.soulsession.feature.episode
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-fun EpisodesRoute(
+fun EpisodeRoute(
+    onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    navigateToEpisode: (String) -> Unit,
-    viewModel: EpisodesViewModel = hiltViewModel()
+    viewModel: EpisodeViewModel = hiltViewModel()
 ) {
 
     val uiState by viewModel.uiState.collectAsState()
 
-    EpisodesScreen(
-        uiState = uiState,
-        navigateToEpisode = navigateToEpisode,
-        modifier = modifier
-    )
+    EpisodeScreen(uiState = uiState, modifier = modifier)
 }
 
 @Composable
-fun EpisodesScreen(
-    uiState: EpisodesUiState,
-    navigateToEpisode: (String) -> Unit,
+fun EpisodeScreen(
+    uiState: EpisodeUiState,
     modifier: Modifier
 ) {
 
     Box(
-        modifier = modifier
+        modifier = modifier,
+        contentAlignment = Alignment.Center
     ) {
-        AnimatedVisibility(visible = uiState.episodes.isNotEmpty()) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(10.dp)
+        AnimatedVisibility(visible = (uiState.episode != null)) {
+            Column(
+                modifier = Modifier.fillMaxSize()
             ) {
-                uiState.episodes.forEach {
-                    item {
-                        Text(
-                            text = it.title,
-                            modifier = Modifier.clickable(onClick = { navigateToEpisode(it.id) })
-                        )
-                    }
-                }
+                Text(text = uiState.episode?.title!!)
             }
         }
     }

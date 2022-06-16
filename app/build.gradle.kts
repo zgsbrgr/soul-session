@@ -68,6 +68,7 @@ dependencies {
     implementation(project(":core-navigation"))
 
     implementation(project(":feature-episodes"))
+    implementation(project(":feature-episode"))
 
     implementation(libs.androidx.core.ktx)
     api(libs.androidx.compose.material3)

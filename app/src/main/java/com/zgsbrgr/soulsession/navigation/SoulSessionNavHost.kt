@@ -22,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.zgsbrgr.soulsession.feature.episode.navigation.EpisodeDestination
+import com.zgsbrgr.soulsession.feature.episode.navigation.episodeGraph
 import com.zgsbrgr.soulsession.feature.episodes.navigation.EpisodesDestination
 import com.zgsbrgr.soulsession.feature.episodes.navigation.episodesGraph
 
@@ -39,8 +41,9 @@ fun SoulSessionNavHost(
         modifier = modifier
     ) {
         episodesGraph(
-            navigateToEpisode = { navController.navigate("") },
+            navigateToEpisode = { navController.navigate("${EpisodeDestination.route}/$it") },
             nestedGraphs = {
+                episodeGraph(onBackClick = { navController.popBackStack() })
             }
         )
     }
