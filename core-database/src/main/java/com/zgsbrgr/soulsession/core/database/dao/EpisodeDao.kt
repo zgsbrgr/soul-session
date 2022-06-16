@@ -31,7 +31,11 @@ interface EpisodeDao {
 
     @Transaction
     @Query(value = "SELECT * FROM episodes")
-    fun getEpisodes(): Flow<List<EpisodeWithTopic>>
+    fun getEpisodesStream(): Flow<List<EpisodeWithTopic>>
+
+    @Transaction
+    @Query(value = "SELECT * FROM episodes WHERE id = :episodeId")
+    fun getEpisodeStream(episodeId: String): Flow<EpisodeWithTopic>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertOrIgnoreEpisodes(episodeEntities: List<EpisodeEntity>): List<Long>

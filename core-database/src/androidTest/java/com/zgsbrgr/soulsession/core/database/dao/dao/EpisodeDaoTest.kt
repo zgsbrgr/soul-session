@@ -37,7 +37,7 @@ class EpisodeDaoTest : TestDatabase() {
 
         topicDao.insertOrIgnoreTopics(topicEntityShells)
 
-        val savedEpisodeEntities = episodeDao.getEpisodes().first()
+        val savedEpisodeEntities = episodeDao.getEpisodesStream().first()
 
         Assert.assertEquals(
             listOf("0", "1", "2"),
@@ -56,7 +56,7 @@ class EpisodeDaoTest : TestDatabase() {
 
         episodeDao.deleteEpisodes(listOf("0", "1", "2"))
 
-        val savedEpisodeEntities = episodeDao.getEpisodes().first()
+        val savedEpisodeEntities = episodeDao.getEpisodesStream().first()
 
         Assert.assertTrue(savedEpisodeEntities.isEmpty())
     }
