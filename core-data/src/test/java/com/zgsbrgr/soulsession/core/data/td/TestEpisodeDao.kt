@@ -52,6 +52,12 @@ class TestEpisodeDao : EpisodeDao {
             it.map(EpisodeEntity::asEpisodeWithTopic)
         }
 
+    override fun getEpisodeStream(episodeId: String): Flow<EpisodeWithTopic> =
+        entityStateFlow.map {
+            it.asEpisodeWithTopic()
+        }
+
+
     override suspend fun insertOrIgnoreEpisodes(episodeEntities: List<EpisodeEntity>): List<Long> {
         entitiesStateFlow.value = episodeEntities
         return episodeEntities.map { it.id.toLong() }
@@ -77,6 +83,7 @@ class TestEpisodeDao : EpisodeDao {
     override suspend fun deleteEpisodes(ids: List<String>) {
         TODO("Not yet implemented")
     }
+
 }
 
 private fun EpisodeEntity.asEpisodeWithTopic() = EpisodeWithTopic(

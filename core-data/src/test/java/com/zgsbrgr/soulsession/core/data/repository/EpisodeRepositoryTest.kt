@@ -17,7 +17,9 @@
 package com.zgsbrgr.soulsession.core.data.repository
 
 import com.zgsbrgr.soulsession.core.data.td.TestEpisodeDao
+import com.zgsbrgr.soulsession.core.data.td.TestTopicDao
 import com.zgsbrgr.soulsession.core.database.dao.EpisodeDao
+import com.zgsbrgr.soulsession.core.database.dao.TopicDao
 import com.zgsbrgr.soulsession.core.database.model.asExternalModel
 import com.zgsbrgr.soulsession.core.network.SoulSessionNetwork
 import com.zgsbrgr.soulsession.core.network.api.RetrofitSoulSessionNetwork
@@ -34,6 +36,8 @@ class EpisodeRepositoryTest {
 
     private lateinit var episodeDao: EpisodeDao
 
+    private lateinit var topicDao: TopicDao
+
     private lateinit var network: SoulSessionNetwork
 
     private val testDispatcher = StandardTestDispatcher()
@@ -42,11 +46,13 @@ class EpisodeRepositoryTest {
     fun setup() {
 
         episodeDao = TestEpisodeDao()
+        topicDao = TestTopicDao()
         network = RetrofitSoulSessionNetwork()
 
         subject = EpisodeRepositoryImpl(
             ioDispatcher = testDispatcher,
             episodeDao = episodeDao,
+            topicDao = topicDao,
             network = network
         )
     }
