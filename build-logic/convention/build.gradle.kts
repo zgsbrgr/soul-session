@@ -30,3 +30,12 @@ dependencies {
     implementation(libs.kotlin.gradlePlugin)
     implementation(libs.spotless.gradlePlugin)
 }
+
+gradlePlugin {
+    plugins {
+        register("androidFeature") {
+            id = "soulsession.android.feature"
+            implementationClass = "AndroidFeatureConventionPlugin"
+        }
+    }
+}
