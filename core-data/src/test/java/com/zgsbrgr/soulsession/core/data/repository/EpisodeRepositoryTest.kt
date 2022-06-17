@@ -17,12 +17,14 @@
 package com.zgsbrgr.soulsession.core.data.repository
 
 import com.zgsbrgr.soulsession.core.data.td.TestEpisodeDao
+import com.zgsbrgr.soulsession.core.data.td.TestSoulSessionNetwork
 import com.zgsbrgr.soulsession.core.data.td.TestTopicDao
 import com.zgsbrgr.soulsession.core.database.dao.EpisodeDao
 import com.zgsbrgr.soulsession.core.database.dao.TopicDao
 import com.zgsbrgr.soulsession.core.database.model.asExternalModel
 import com.zgsbrgr.soulsession.core.network.SoulSessionNetwork
 import com.zgsbrgr.soulsession.core.network.api.RetrofitSoulSessionNetwork
+import com.zgsbrgr.soulsession.core.network.fake.FakeNetwork
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -47,7 +49,7 @@ class EpisodeRepositoryTest {
 
         episodeDao = TestEpisodeDao()
         topicDao = TestTopicDao()
-        network = RetrofitSoulSessionNetwork()
+        network = TestSoulSessionNetwork()
 
         subject = EpisodeRepositoryImpl(
             ioDispatcher = testDispatcher,
