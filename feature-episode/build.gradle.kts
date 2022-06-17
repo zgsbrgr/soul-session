@@ -15,6 +15,7 @@
  */
 plugins {
     id("soulsession.android.library")
+    id("soulsession.android.feature")
     id("soulsession.android.library.compose")
     id("soulsession.android.library.jacoco")
     kotlin("kapt")

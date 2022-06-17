@@ -16,17 +16,30 @@
 
 package com.zgsbrgr.soulsession.feature.episode
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
+import com.zgsbrgr.soulsession.core.ui.R
+import com.zgsbrgr.soulsession.core.ui.common.NavigateUpButton
+import com.zgsbrgr.soulsession.core.ui.theme.SoulSessionTypo
 
 @Composable
 fun EpisodeRoute(
@@ -37,25 +50,68 @@ fun EpisodeRoute(
 
     val uiState by viewModel.uiState.collectAsState()
 
-    EpisodeScreen(uiState = uiState, modifier = modifier)
+    EpisodeScreen(
+        uiState = uiState.episodeState,
+        modifier = modifier,
+        onNavigateUpClick = onBackClick
+    )
 }
 
 @Composable
 fun EpisodeScreen(
     uiState: EpisodeUiState,
-    modifier: Modifier
+    modifier: Modifier,
+    onNavigateUpClick: () -> Unit
 ) {
 
-    Box(
-        modifier = modifier,
-        contentAlignment = Alignment.Center
-    ) {
-        AnimatedVisibility(visible = (uiState.episode != null)) {
-            Column(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(text = uiState.episode?.title!!)
+    val scrollState = rememberScrollState()
+
+    Column(modifier = Modifier.statusBarsPadding()) {
+        Row {
+            NavigateUpButton(
+                onClick = onNavigateUpClick
+            )
+        }
+        Column(
+            modifier = Modifier
+                .verticalScroll(scrollState)
+                .navigationBarsPadding()
+                .padding(vertical = 24.dp, horizontal = 16.dp)
+                .padding(bottom = 64.dp)
+        ) {
+            when (uiState) {
+                is EpisodeUiState.Loading -> {}
+                is EpisodeUiState.Error -> {}
+                is EpisodeUiState.Success -> {
+                    val topic = uiState.episode.topic
+                    EpisodeCover(topic.imageUrl, modifier)
+                    Spacer(modifier = Modifier.height(32.dp))
+                    Text(text = uiState.episode.title, style = SoulSessionTypo.titleLarge)
+                }
             }
         }
     }
+}
+
+@Composable
+fun EpisodeCover(
+    url: String?,
+    modifier: Modifier = Modifier
+) {
+    if (url.isNullOrEmpty()) {
+        Image(
+            painter = painterResource(R.drawable.ss),
+            contentDescription = "",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxWidth().height(200.dp)
+        )
+    } else
+        AsyncImage(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(200.dp),
+            model = url,
+            contentDescription = "Topic image",
+            contentScale = ContentScale.Crop
+        )
 }

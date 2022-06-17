@@ -25,10 +25,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -71,55 +71,52 @@ fun EpisodesScreen(
 
     val scrollState = rememberLazyListState()
 
-    Surface {
-
-        LazyColumn(state = scrollState) {
-            item {
-                Box(
-                    modifier = Modifier.height(100.dp),
-                    contentAlignment = Alignment.CenterStart
-                ) {
-                    Text(
-                        text = "SoulSession archive",
-                        style = SoulSessionTypo.headlineLarge,
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
+    LazyColumn(state = scrollState, modifier = modifier.statusBarsPadding()) {
+        item {
+            Box(
+                modifier = Modifier.height(100.dp),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                Text(
+                    text = "SoulSession archive",
+                    style = SoulSessionTypo.headlineLarge,
+                    modifier = Modifier.padding(16.dp)
+                )
             }
-            when (uiState) {
-                is EpisodesUiState.Success -> {
-                    item {
+        }
+        when (uiState) {
+            is EpisodesUiState.Success -> {
+                item {
 
-                        StaggeredVerticalGrid(
-                            columnCount = 2,
-                            spacing = 16.dp,
-                            modifier = Modifier.padding(horizontal = 16.dp)
+                    StaggeredVerticalGrid(
+                        columnCount = 2,
+                        spacing = 16.dp,
+                        modifier = Modifier.padding(horizontal = 16.dp)
 
-                        ) {
-                            uiState.episodes.forEach { episode ->
-                                EpisodeItem(
-                                    episode = episode,
-                                    modifier = Modifier.padding(bottom = 16.dp),
-                                    onClick = {
-                                        navigateToEpisode(episode.id)
-                                    }
+                    ) {
+                        uiState.episodes.forEach { episode ->
+                            EpisodeItem(
+                                episode = episode,
+                                modifier = Modifier.padding(bottom = 16.dp),
+                                onClick = {
+                                    navigateToEpisode(episode.id)
+                                }
 
-                                )
-                            }
+                            )
                         }
                     }
                 }
-                is EpisodesUiState.Loading -> {
-                    // TODO
-                    item {
-                        Text(text = "page is loading")
-                    }
+            }
+            is EpisodesUiState.Loading -> {
+                // TODO
+                item {
+                    Text(text = "page is loading")
                 }
-                is EpisodesUiState.Error -> {
-                    // TODO
-                    item {
-                        Text(text = "some error occured")
-                    }
+            }
+            is EpisodesUiState.Error -> {
+                // TODO
+                item {
+                    Text(text = "some error occured")
                 }
             }
         }
@@ -177,7 +174,7 @@ fun EpisodeImage(
             )
         } else {
             Image(
-                painterResource(R.drawable.ss),
+                painterResource(com.zgsbrgr.soulsession.core.ui.R.drawable.ss),
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()

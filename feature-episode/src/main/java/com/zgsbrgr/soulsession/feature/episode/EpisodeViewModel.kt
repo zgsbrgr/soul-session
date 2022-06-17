@@ -48,38 +48,32 @@ class EpisodeViewModel @Inject constructor(
         id = episodeId
     ).asResult()
 
-    private val _uiState = MutableStateFlow(EpisodeUiState(loading = false))
-    val uiState: StateFlow<EpisodeUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(EpisodeScreenUiState())
+    val uiState: StateFlow<EpisodeScreenUiState> = _uiState.asStateFlow()
 
     init {
         episode.onEach { episodeResult ->
-            _uiState.update {
+            val episodeState: EpisodeUiState =
                 when (episodeResult) {
-                    is Result.Loading -> {
-                        it.copy(
-                            loading = true
-                        )
-                    }
-                    is Result.Success -> {
-                        it.copy(
-                            loading = false,
-                            episode = episodeResult.data
-                        )
-                    }
-                    is Result.Error -> {
-                        it.copy(
-                            loading = false,
-                            error = "failed"
-                        )
-                    }
+                    is Result.Success -> EpisodeUiState.Success(episodeResult.data)
+                    is Result.Error -> EpisodeUiState.Error
+                    is Result.Loading -> EpisodeUiState.Loading
                 }
+            _uiState.update {
+                it.copy(
+                    episodeState = episodeState
+                )
             }
         }.launchIn(viewModelScope)
     }
 }
 
-data class EpisodeUiState(
-    val loading: Boolean = false,
-    val episode: Episode? = null,
-    val error: String = ""
+sealed interface EpisodeUiState {
+    data class Success(val episode: Episode) : EpisodeUiState
+    object Loading : EpisodeUiState
+    object Error : EpisodeUiState
+}
+
+data class EpisodeScreenUiState(
+    val episodeState: EpisodeUiState = EpisodeUiState.Loading
 )
