@@ -22,6 +22,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -40,7 +42,7 @@ fun EpisodesRoute(
     val uiState by viewModel.uiState.collectAsState()
 
     EpisodesScreen(
-        uiState = uiState,
+        uiState = uiState.episodesState,
         navigateToEpisode = navigateToEpisode,
         modifier = modifier
     )
@@ -53,24 +55,43 @@ fun EpisodesScreen(
     modifier: Modifier
 ) {
 
-    Box(
-        modifier = modifier
-    ) {
-        AnimatedVisibility(visible = uiState.episodes.isNotEmpty()) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(10.dp)
-            ) {
-                uiState.episodes.forEach {
-                    item {
-                        Text(
-                            text = it.title,
-                            modifier = Modifier.clickable(onClick = { navigateToEpisode(it.id) })
-                        )
+    val scrollState = rememberLazyListState()
+
+    Surface {
+
+        LazyColumn(state = scrollState) {
+            item {
+                Text(text = "Title goes here")
+            }
+            when(uiState) {
+                is EpisodesUiState.Success -> {
+                    uiState.episodes.forEach {
+                        item {
+                            Text(
+                                text = it.title,
+                                modifier = Modifier.clickable(onClick = { navigateToEpisode(it.id) })
+                            )
+                        }
                     }
                 }
+                is EpisodesUiState.Loading -> {
+                    //TODO
+                    item {
+                        Text(text = "page is loading")
+                    }
+                }
+                is EpisodesUiState.Error -> {
+                    // TODO
+                    item {
+                        Text(text = "some error occured")
+                    }
+                }
+
             }
+
         }
+
     }
+
+
 }

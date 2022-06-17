@@ -36,8 +36,8 @@ class EpisodesViewModel @Inject constructor(
     private val episodeRepository: EpisodeRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(EpisodesUiState(loading = true))
-    val uiState: StateFlow<EpisodesUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(EpisodesScreenUiState())
+    val uiState: StateFlow<EpisodesScreenUiState> = _uiState.asStateFlow()
 
     init {
 
@@ -46,41 +46,29 @@ class EpisodesViewModel @Inject constructor(
                 episodeRepository.getEpisodesStream().asResult()
 
             response.collect { responseResult ->
-                _uiState.update {
-                    when (responseResult) {
-                        is Result.Success -> {
-                            it.copy(
-                                episodes = responseResult.data,
-                                loading = false,
-                                error = ""
-                            )
-                        }
-                        is Result.Loading -> {
-                            it.copy(
-                                episodes = emptyList(),
-                                loading = true,
-                                error = ""
-                            )
-                        }
-                        is Result.Error -> {
-                            it.copy(
-                                episodes = emptyList(),
-                                loading = false,
-                                error = "failed"
-                            )
-                        }
-                    }
+                val episodes = when(responseResult) {
+                    is Result.Success -> EpisodesUiState.Success(responseResult.data)
+                    is Result.Error -> EpisodesUiState.Error
+                    is Result.Loading -> EpisodesUiState.Loading
                 }
+                _uiState.update {
+                    it.copy(
+                        episodesState = episodes
+                    )
+                }
+
             }
         }
     }
 }
 
-data class EpisodesUiState(
-    val loading: Boolean = false,
-    val episodes: List<Episode> = emptyList(),
-    val error: String = ""
-) {
-    val initialLoad: Boolean
-        get() = episodes.isEmpty() && error.isEmpty() && loading
+
+data class EpisodesScreenUiState(
+    val episodesState: EpisodesUiState = EpisodesUiState.Loading
+)
+
+sealed interface EpisodesUiState {
+    data class Success(val episodes: List<Episode>): EpisodesUiState
+    object Error: EpisodesUiState
+    object Loading: EpisodesUiState
 }
