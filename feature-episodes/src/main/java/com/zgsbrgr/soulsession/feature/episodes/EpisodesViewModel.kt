@@ -46,7 +46,7 @@ class EpisodesViewModel @Inject constructor(
                 episodeRepository.getEpisodesStream().asResult()
 
             response.collect { responseResult ->
-                val episodes = when(responseResult) {
+                val episodes = when (responseResult) {
                     is Result.Success -> EpisodesUiState.Success(responseResult.data)
                     is Result.Error -> EpisodesUiState.Error
                     is Result.Loading -> EpisodesUiState.Loading
@@ -56,19 +56,17 @@ class EpisodesViewModel @Inject constructor(
                         episodesState = episodes
                     )
                 }
-
             }
         }
     }
 }
-
 
 data class EpisodesScreenUiState(
     val episodesState: EpisodesUiState = EpisodesUiState.Loading
 )
 
 sealed interface EpisodesUiState {
-    data class Success(val episodes: List<Episode>): EpisodesUiState
-    object Error: EpisodesUiState
-    object Loading: EpisodesUiState
+    data class Success(val episodes: List<Episode>) : EpisodesUiState
+    object Error : EpisodesUiState
+    object Loading : EpisodesUiState
 }
