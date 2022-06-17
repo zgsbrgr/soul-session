@@ -30,19 +30,28 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.http.GET
 
-interface SoulSessionNetworkApi {
+/**
+ * Retrofit API declaration
+ */
+private interface SoulSessionNetworkApi {
 
     @GET("episodes.json")
-    suspend fun getEpisodes(): List<NetworkEpisode>
+    suspend fun getEpisodes(): NetworkResponse<List<NetworkEpisode>>
 }
 
 private const val BaseUrl = BuildConfig.BASEURL
 
+/**
+ * Wrapper for data provided from the [BaseUrl]
+ */
 @Serializable
 private data class NetworkResponse<T>(
     val data: T
 )
 
+/**
+ * [Retrofit] backed [SoulSessionNetwork]
+ */
 @Singleton
 class RetrofitSoulSessionNetwork @Inject constructor() : SoulSessionNetwork {
 
@@ -62,5 +71,5 @@ class RetrofitSoulSessionNetwork @Inject constructor() : SoulSessionNetwork {
         .create(SoulSessionNetworkApi::class.java)
 
     override suspend fun getEpisodes(): List<NetworkEpisode> =
-        networkApi.getEpisodes()
+        networkApi.getEpisodes().data
 }
