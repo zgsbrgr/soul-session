@@ -14,9 +14,18 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zgsbrgr.soulsession.core.media">
 
-    <style name="Theme.SoulSession" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/black30</item>
-    </style>
-</resources>
+
+    <application>
+        <service
+            android:name=".MediaService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>

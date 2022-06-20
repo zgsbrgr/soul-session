@@ -16,6 +16,7 @@
 
 package com.zgsbrgr.soulsession.feature.episode
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,6 +24,7 @@ import com.zgsbrgr.soulsession.core.common.result.Result
 import com.zgsbrgr.soulsession.core.common.result.asResult
 import com.zgsbrgr.soulsession.core.data.repository.EpisodeRepository
 import com.zgsbrgr.soulsession.core.model.data.Episode
+import com.zgsbrgr.soulsession.core.model.data.Topic
 import com.zgsbrgr.soulsession.feature.episode.navigation.EpisodeDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -65,6 +67,10 @@ class EpisodeViewModel @Inject constructor(
                 )
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun playPodcast(podcastTopic: Topic) {
+        Log.d("TAG", podcastTopic.podcastUrl!!)
     }
 }
 
