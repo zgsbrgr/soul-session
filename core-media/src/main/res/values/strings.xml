@@ -14,17 +14,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zgsbrgr.soulsession.core.media">
-
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <application>
-        <service
-            android:name=".MediaService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.media.browse.MediaBrowserService" />
-            </intent-filter>
-        </service>
-    </application>
-</manifest>
+<resources>
+    <string name="channel_name">SoulSession Podcasts</string>
+    <string name="channel_description">Notification for SoulSession</string>
+</resources>

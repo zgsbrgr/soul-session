@@ -23,6 +23,10 @@ plugins {
     id("soulsession.spotless")
 }
 
+hilt {
+    enableAggregatingTask = true
+}
+
 android {
     defaultConfig {
         applicationId = "com.zgsbrgr.soulsession"
@@ -69,6 +73,7 @@ dependencies {
 
     implementation(project(":feature-episodes"))
     implementation(project(":feature-episode"))
+
 
 
     implementation(libs.androidx.core.ktx)

@@ -43,7 +43,9 @@ fun SoulSessionNavHost(
         episodesGraph(
             navigateToEpisode = { navController.navigate("${EpisodeDestination.route}/$it") },
             nestedGraphs = {
-                episodeGraph(onBackClick = { navController.popBackStack() })
+                episodeGraph(
+                    onBackClick = { navController.popBackStack() }
+                )
             }
         )
     }

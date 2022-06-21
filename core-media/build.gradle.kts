@@ -40,4 +40,7 @@ dependencies {
     implementation(libs.exoplayer)
     implementation(libs.exoplayer.extension.mediasession)
 
+    implementation(libs.coil.kt)
+
+    implementation(libs.androidx.activity.compose)
 }
