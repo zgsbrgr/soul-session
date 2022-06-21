@@ -37,6 +37,8 @@ dependencies {
     testImplementation(project(":core-testing"))
     androidTestImplementation(project(":core-testing"))
 
+    implementation(libs.androidx.media)
+
     implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.androidx.hilt.navigation.compose)

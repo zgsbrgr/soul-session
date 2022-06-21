@@ -16,13 +16,13 @@
 
 package com.zgsbrgr.soulsession.feature.episode
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zgsbrgr.soulsession.core.common.result.Result
 import com.zgsbrgr.soulsession.core.common.result.asResult
 import com.zgsbrgr.soulsession.core.data.repository.EpisodeRepository
+import com.zgsbrgr.soulsession.core.media.MPServiceConnection
 import com.zgsbrgr.soulsession.core.model.data.Episode
 import com.zgsbrgr.soulsession.core.model.data.Topic
 import com.zgsbrgr.soulsession.feature.episode.navigation.EpisodeDestination
@@ -39,8 +39,11 @@ import kotlinx.coroutines.flow.update
 @HiltViewModel
 class EpisodeViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val episodeRepository: EpisodeRepository
+    private val episodeRepository: EpisodeRepository,
+    private val serviceConnection: MPServiceConnection
 ) : ViewModel() {
+
+    val currentlyPlaying = serviceConnection.currentPlayingTopic
 
     private val episodeId: String = checkNotNull(
         savedStateHandle[EpisodeDestination.episodeIdArg]
@@ -70,7 +73,11 @@ class EpisodeViewModel @Inject constructor(
     }
 
     fun playPodcast(podcastTopic: Topic) {
-        Log.d("TAG", podcastTopic.podcastUrl!!)
+        val podcasts = mutableListOf<Topic>()
+        podcasts.add(podcastTopic)
+        serviceConnection.playPodcast(podcasts)
+
+        serviceConnection.transportControls.playFromMediaId(podcastTopic.id, null)
     }
 }
 
