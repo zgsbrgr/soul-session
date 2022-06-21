@@ -13,6 +13,7 @@ androidxEspresso = "3.3.0"
 androidxHiltNavigationCompose = "1.0.0"
 androidxLifecycle = "2.5.0-beta01"
 androidxMacroBenchmark = "1.1.0-rc02"
+androidxMedia = "1.6.0"
 androidxNavigation = "2.4.0-rc01"
 androidxProfileinstaller = "1.2.0-beta01"
 androidxSavedState = "1.1.0"
@@ -23,6 +24,7 @@ androidxTestExt = "1.1.2"
 androidxUiAutomator = "2.2.0"
 androidxWork = "2.7.1"
 coil = "2.0.0-rc01"
+exoPlayer = "2.18.0"
 hilt = "2.41"
 hiltExt = "1.0.0"
 jacoco = "0.8.7"
@@ -70,6 +72,7 @@ androidx-dataStore-core = { group = "androidx.datastore", name = "datastore", ve
 androidx-dataStore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
+androidx-media = { group = "androidx.media", name = "media", version.ref= "androidxMedia"}
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "androidxProfileinstaller" }
 androidx-savedstate-ktx = { group = "androidx.savedstate", name = "savedstate-ktx", version.ref= "androidxSavedState"}
@@ -86,6 +89,8 @@ androidx-work-testing = { group = "androidx.work", name = "work-testing", versio
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil"}
 coil-kt-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil"}
 coil-kt-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil"}
+exoplayer = { group = "com.google.android.exoplayer", name = "exoplayer", version.ref = "exoPlayer"}
+exoplayer-extension-mediasession = { group = "com.google.android.exoplayer", name = "extension-mediasession", version.ref="exoPlayer" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-ext-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltExt" }
 hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltExt" }
