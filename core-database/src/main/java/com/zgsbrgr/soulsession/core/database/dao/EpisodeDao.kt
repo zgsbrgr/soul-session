@@ -30,7 +30,7 @@ import kotlinx.coroutines.flow.Flow
 interface EpisodeDao {
 
     @Transaction
-    @Query(value = "SELECT * FROM episodes")
+    @Query(value = "SELECT * FROM episodes ORDER BY date DESC")
     fun getEpisodesStream(): Flow<List<EpisodeWithTopic>>
 
     @Transaction
