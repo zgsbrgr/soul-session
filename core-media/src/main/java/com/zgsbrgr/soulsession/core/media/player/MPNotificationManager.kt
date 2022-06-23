@@ -58,13 +58,14 @@ class MPNotificationManager(
             context,
             Constant.PLAYBACK_NOTIFICATION_ID,
             Constant.CHANNEL_ID,
-            DescriptionAdapter(mediaController)
         )
+            .setChannelNameResourceId(R.string.channel_name)
             .setChannelDescriptionResourceId(R.string.channel_description)
+            .setMediaDescriptionAdapter(DescriptionAdapter(mediaController))
             .setNotificationListener(notificationListener)
             .build()
             .apply {
-                // setSmallIcon(com.google.android.exoplayer2.ui.R.drawable.exo_icon_fastforward)
+                setSmallIcon(com.google.android.exoplayer2.ui.R.drawable.exo_icon_fastforward)
                 setMediaSessionToken(sessionToken)
                 setUseStopAction(true)
                 setUseNextActionInCompactView(true)
@@ -100,6 +101,7 @@ class MPNotificationManager(
                 }
                 .build()
             val disposable = imageLoader.enqueue(request)
+
             return null
         }
     }
