@@ -19,10 +19,10 @@ package com.zgsbrgr.soulsession.feature.episode
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zgsbrgr.soulsession.core.common.events.AppEventBus
 import com.zgsbrgr.soulsession.core.common.result.Result
 import com.zgsbrgr.soulsession.core.common.result.asResult
 import com.zgsbrgr.soulsession.core.data.repository.EpisodeRepository
-import com.zgsbrgr.soulsession.core.media.MPServiceConnection
 import com.zgsbrgr.soulsession.core.model.data.Episode
 import com.zgsbrgr.soulsession.core.model.data.Topic
 import com.zgsbrgr.soulsession.feature.episode.navigation.EpisodeDestination
@@ -39,11 +39,11 @@ import kotlinx.coroutines.flow.update
 @HiltViewModel
 class EpisodeViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val episodeRepository: EpisodeRepository,
-    private val serviceConnection: MPServiceConnection
+    episodeRepository: EpisodeRepository,
+    private val appEventBus: AppEventBus
 ) : ViewModel() {
 
-    val currentlyPlaying = serviceConnection.currentPlayingTopic
+    val selectedPodcast = appEventBus.selectedTopic
 
     private val episodeId: String = checkNotNull(
         savedStateHandle[EpisodeDestination.episodeIdArg]
@@ -72,12 +72,8 @@ class EpisodeViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun playPodcast(podcastTopic: Topic) {
-        val podcasts = mutableListOf<Topic>()
-        podcasts.add(podcastTopic)
-        serviceConnection.playPodcast(podcasts)
-
-        serviceConnection.transportControls.playFromMediaId(podcastTopic.id, null)
+    fun selectTopic(topic: Topic?) {
+        appEventBus.postMessage(topic)
     }
 }
 

@@ -32,9 +32,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,19 +51,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.zgsbrgr.soulsession.core.model.data.Episode
 import com.zgsbrgr.soulsession.core.model.data.Topic
 import com.zgsbrgr.soulsession.core.ui.R
 import com.zgsbrgr.soulsession.core.ui.common.NavigateUpButton
-import com.zgsbrgr.soulsession.core.ui.theme.SoulSessionTypo
 
 /* ktlint-disable max-line-length */
 
 @Composable
 fun EpisodeRoute(
-    onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: EpisodeViewModel = hiltViewModel()
+    viewModel: EpisodeViewModel = hiltViewModel(),
+    onBackClick: () -> Unit
 ) {
 
     val uiState by viewModel.uiState.collectAsState()
@@ -69,8 +72,11 @@ fun EpisodeRoute(
     EpisodeScreen(
         uiState = uiState.episodeState,
         modifier = modifier,
+        viewModel = viewModel,
         onNavigateUpClick = onBackClick,
-        onPodcastPlayClick = viewModel::playPodcast
+        onPodcastPlayClick = {
+            viewModel.selectTopic(it)
+        }
     )
 }
 
@@ -78,8 +84,9 @@ fun EpisodeRoute(
 fun EpisodeScreen(
     uiState: EpisodeUiState,
     modifier: Modifier,
+    viewModel: EpisodeViewModel,
     onNavigateUpClick: () -> Unit,
-    onPodcastPlayClick: (Topic) -> Unit
+    onPodcastPlayClick: (Topic?) -> Unit
 ) {
 
     val scrollState = rememberScrollState()
@@ -105,12 +112,14 @@ fun EpisodeScreen(
                     // TODO add error screen
                 }
                 is EpisodeUiState.Success -> {
+                    val episode = uiState.episode
                     val topic = uiState.episode.topic
+
                     EpisodeCover(topic.imageUrl, modifier)
                     Spacer(modifier = Modifier.height(32.dp))
                     Text(
                         text = uiState.episode.title,
-                        style = SoulSessionTypo.titleLarge,
+                        style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier.alpha(0.8f)
                     )
 
@@ -119,11 +128,12 @@ fun EpisodeScreen(
                         PodcastPlayButton(
                             podcastTopic = topic,
                             modifier = modifier,
+                            viewModel = viewModel,
                             onPodcastPlayClick = onPodcastPlayClick
                         )
                     }
                     Spacer(modifier = Modifier.height(20.dp))
-                    Information(topic = topic, modifier = modifier)
+                    Information(episode = episode, modifier = modifier)
                     Spacer(modifier = modifier.height(20.dp))
                     Topic(topic = topic, modifier = Modifier.padding(start = 8.dp, end = 8.dp))
                 }
@@ -136,12 +146,25 @@ fun EpisodeScreen(
 fun PodcastPlayButton(
     podcastTopic: Topic,
     modifier: Modifier,
-    onPodcastPlayClick: (Topic) -> Unit
+    viewModel: EpisodeViewModel,
+    onPodcastPlayClick: (Topic?) -> Unit
 ) {
+
+    val topic = viewModel.selectedPodcast.collectAsState()
+    val (buttonText, buttonIcon) = if ((topic.value as Topic?) != null && (topic.value as Topic).id == podcastTopic.id) {
+        ("pause" to Icons.Default.Clear)
+    } else ("play" to Icons.Default.PlayArrow)
+
     OutlinedButton(
-        onClick = { onPodcastPlayClick(podcastTopic) },
+        onClick = {
+            if ((topic.value as Topic?)?.id == podcastTopic.id)
+                onPodcastPlayClick(null)
+            else
+                onPodcastPlayClick(podcastTopic)
+        },
         modifier = modifier
-            .width(120.dp)
+            // .width(120.dp)
+            .fillMaxWidth()
             .height(50.dp),
         shape = RoundedCornerShape(10.dp),
         border = BorderStroke(2.dp, Color(0XFF0F9D58)),
@@ -149,13 +172,14 @@ fun PodcastPlayButton(
         colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White)
     ) {
         Icon(
-            Icons.Default.PlayArrow,
+            buttonIcon,
             contentDescription = "Play",
             tint = Color(0XFF0F9D58)
         )
+        Spacer(modifier = Modifier.width(10.dp))
         Text(
-            text = "play".uppercase(),
-            style = SoulSessionTypo.bodyMedium.copy(Color(0XFF0F9D58))
+            text = buttonText.uppercase(),
+            style = MaterialTheme.typography.bodyMedium.copy(Color(0XFF0F9D58))
         )
     }
 }
@@ -172,13 +196,13 @@ fun EpisodeCover(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
+                .height(350.dp)
         )
     } else
         AsyncImage(
             modifier = modifier
                 .fillMaxWidth()
-                .height(200.dp),
+                .height(350.dp),
             model = url,
             contentDescription = "Topic image",
             contentScale = ContentScale.Crop
@@ -186,8 +210,12 @@ fun EpisodeCover(
 }
 
 @Composable
-fun Information(topic: Topic, modifier: Modifier) {
-    val scrollState = rememberScrollState()
+fun Information(
+    episode: Episode,
+    modifier: Modifier
+) {
+
+    val topic = episode.topic
     Column {
         Row(
             modifier = modifier
@@ -205,7 +233,7 @@ fun Information(topic: Topic, modifier: Modifier) {
             )
             Spacer(modifier = modifier.width(10.dp))
             topic.startTime?.let { time ->
-                Text(text = time, style = SoulSessionTypo.labelSmall, textAlign = TextAlign.Center)
+                Text(text = episode.date + " " + time, style = MaterialTheme.typography.labelSmall, textAlign = TextAlign.Center)
             }
         }
         Spacer(modifier = modifier.height(10.dp))
@@ -220,7 +248,7 @@ fun Information(topic: Topic, modifier: Modifier) {
             )
             Spacer(modifier = modifier.width(10.dp))
             topic.location?.let { location ->
-                Text(text = location, style = SoulSessionTypo.labelSmall, textAlign = TextAlign.Center)
+                Text(text = location, style = MaterialTheme.typography.labelSmall, textAlign = TextAlign.Center)
             }
         }
         Spacer(modifier = modifier.height(10.dp))
@@ -240,7 +268,7 @@ fun Information(topic: Topic, modifier: Modifier) {
             )
             Spacer(modifier = modifier.width(10.dp))
             topic.email?.let { email ->
-                Text(text = email, style = SoulSessionTypo.labelSmall, textAlign = TextAlign.Center)
+                Text(text = email, style = MaterialTheme.typography.labelSmall, textAlign = TextAlign.Center)
             }
             Spacer(modifier = modifier.width(20.dp))
             Image(
@@ -253,7 +281,7 @@ fun Information(topic: Topic, modifier: Modifier) {
             )
             Spacer(modifier = modifier.width(10.dp))
             topic.phoneNumber?.let { phone ->
-                Text(text = phone, style = SoulSessionTypo.labelSmall, textAlign = TextAlign.Center)
+                Text(text = phone, style = MaterialTheme.typography.labelSmall, textAlign = TextAlign.Center)
             }
         }
     }
@@ -262,12 +290,12 @@ fun Information(topic: Topic, modifier: Modifier) {
 @Composable
 fun Topic(topic: Topic, modifier: Modifier) {
 
-    Text(text = topic.title, style = SoulSessionTypo.bodyLarge, modifier = modifier)
+    Text(text = topic.title, style = MaterialTheme.typography.bodyLarge, modifier = modifier)
     Spacer(modifier = modifier.height(16.dp))
     if (topic.description != null) {
         Text(
             text = topic.description!!,
-            style = SoulSessionTypo.bodyMedium,
+            style = MaterialTheme.typography.bodyMedium,
             modifier = modifier.alpha(0.8f)
         )
         Spacer(modifier = modifier.height(16.dp))
