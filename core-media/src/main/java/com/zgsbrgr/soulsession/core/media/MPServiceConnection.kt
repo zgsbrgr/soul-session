@@ -26,6 +26,8 @@ import androidx.compose.runtime.mutableStateOf
 import com.zgsbrgr.soulsession.core.media.player.PodcastMediaSource
 import com.zgsbrgr.soulsession.core.media.util.currentPosition
 import com.zgsbrgr.soulsession.core.model.data.Topic
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class MPServiceConnection(
     context: Context,
@@ -33,7 +35,9 @@ class MPServiceConnection(
 ) {
 
     var playbackState = mutableStateOf<PlaybackStateCompat?>(null)
-    var currentPlayingTopic = mutableStateOf<Topic?>(null)
+
+    private var _currentPlayingTopic = MutableStateFlow<Topic?>(null)
+    val currentPlayingTopic = _currentPlayingTopic.asStateFlow()
 
     lateinit var mediaController: MediaControllerCompat
 
@@ -114,11 +118,12 @@ class MPServiceConnection(
 
         override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
             super.onMetadataChanged(metadata)
-            currentPlayingTopic.value = metadata?.let {
+            val m = metadata?.let {
                 podcastMediaSource.podcastsFromTopic.find {
                     it.id == metadata.description?.mediaId
                 }
             }
+            _currentPlayingTopic.value = m
         }
 
         override fun onSessionDestroyed() {
