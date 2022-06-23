@@ -18,6 +18,7 @@ package com.zgsbrgr.soulsession.core.media.player
 
 import android.app.Notification
 import android.content.Intent
+import android.util.Log
 import androidx.core.content.ContextCompat
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.zgsbrgr.soulsession.core.media.Constant
@@ -48,8 +49,12 @@ class MPNotificationListener(
                     this,
                     Intent(applicationContext, this::class.java)
                 )
-                startForeground(Constant.PLAYBACK_NOTIFICATION_ID, notification)
-                isForegroundService = true
+                try {
+                    startForeground(Constant.PLAYBACK_NOTIFICATION_ID, notification)
+                    isForegroundService = true
+                } catch (e: Exception) {
+                    Log.e("ERROR", e.message.toString())
+                }
             }
         }
     }
