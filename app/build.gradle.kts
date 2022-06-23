@@ -70,9 +70,12 @@ dependencies {
     implementation(project(":core-testing"))
     implementation(project(":core-network"))
     implementation(project(":core-navigation"))
+    implementation(project(":core-model"))
 
     implementation(project(":feature-episodes"))
     implementation(project(":feature-episode"))
+
+    implementation(project(":feature-player"))
 
 
 
