@@ -16,8 +16,13 @@
 
 package com.zgsbrgr.soulsession.navigation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -26,6 +31,8 @@ import com.zgsbrgr.soulsession.feature.episode.navigation.EpisodeDestination
 import com.zgsbrgr.soulsession.feature.episode.navigation.episodeGraph
 import com.zgsbrgr.soulsession.feature.episodes.navigation.EpisodesDestination
 import com.zgsbrgr.soulsession.feature.episodes.navigation.episodesGraph
+import com.zgsbrgr.soulsession.feature.player.PlayerScreen
+import com.zgsbrgr.soulsession.feature.player.SmallPlayerScreen
 
 @Composable
 fun SoulSessionNavHost(
@@ -35,18 +42,30 @@ fun SoulSessionNavHost(
     startDestination: String = EpisodesDestination.route
 ) {
 
-    NavHost(
-        navController = navController,
-        startDestination = startDestination,
-        modifier = modifier
-    ) {
-        episodesGraph(
-            navigateToEpisode = { navController.navigate("${EpisodeDestination.route}/$it") },
-            nestedGraphs = {
-                episodeGraph(
-                    onBackClick = { navController.popBackStack() }
-                )
-            }
+    Box(modifier = Modifier.fillMaxSize()) {
+        NavHost(
+            navController = navController,
+            startDestination = startDestination,
+            modifier = modifier
+        ) {
+            episodesGraph(
+                navigateToEpisode =
+                { navController.navigate("${EpisodeDestination.route}/$it") },
+                nestedGraphs = {
+                    episodeGraph(
+                        onBackClick = { navController.popBackStack() }
+                    )
+                }
+            )
+        }
+
+        SmallPlayerScreen(
+            modifier = Modifier.align(Alignment.BottomCenter),
+            onPlaybackStopped = { }
+        )
+        PlayerScreen(
+            modifier = modifier,
+            onNavigateUpClick = {}
         )
     }
 }
