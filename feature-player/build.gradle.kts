@@ -30,6 +30,7 @@ dependencies {
     implementation(project(":core-model"))
     implementation(project(":core-ui"))
     implementation(project(":core-common"))
+    implementation(project(":core-data"))
     implementation(project(":core-media"))
 
     testImplementation(project(":core-testing"))
@@ -39,6 +40,11 @@ dependencies {
 
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.viewModelCompose)
+
+    implementation(libs.androidx.compose.material)
+
+    implementation(libs.androidx.palette)
+
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
