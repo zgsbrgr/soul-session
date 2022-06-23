@@ -29,12 +29,12 @@ setup.
 
 Current list of convention plugins:
 
-- [`nowinandroid.spotless`](convention/src/main/kotlin/soulsession.spotless.gradle.kts):
+- [`soulsession.spotless`](convention/src/main/kotlin/soulsession.spotless.gradle.kts):
   Configures spotless. 
-- [`nowinandroid.android.application`](convention/src/main/kotlin/soulsession.android.application.gradle.kts),
-  [`nowinandroid.android.library`](convention/src/main/kotlin/soulsession.android.library.gradle.kts),
-  [`nowinandroid.android.test`](convention/src/main/kotlin/soulsession.android.test.gradle.kts):
+- [`soulsession.android.application`](convention/src/main/kotlin/soulsession.android.application.gradle.kts),
+  [`soulsession.android.library`](convention/src/main/kotlin/soulsession.android.library.gradle.kts),
+  [`soulsession.android.test`](convention/src/main/kotlin/soulsession.android.test.gradle.kts):
   Configures common Android and Kotlin options.
-- [`nowinandroid.android.application.compose`](convention/src/main/kotlin/soulsession.android.application.compose.gradle.kts),
-  [`nowinandroid.android.library.compose`](convention/src/main/kotlin/soulsession.android.library.gradle.kts):
+- [`soulsession.android.application.compose`](convention/src/main/kotlin/soulsession.android.application.compose.gradle.kts),
+  [`soulsession.android.library.compose`](convention/src/main/kotlin/soulsession.android.library.gradle.kts):
   Configures Jetpack Compose options

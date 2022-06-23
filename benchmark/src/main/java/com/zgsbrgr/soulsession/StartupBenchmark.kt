@@ -72,7 +72,7 @@ abstract class AbstractStartupBenchmark(private val startupMode: StartupMode) {
     fun startupFullCompilation() = startup(CompilationMode.Full())
 
     private fun startup(compilationMode: CompilationMode) = benchmarkRule.measureRepeated(
-        packageName = "com.zgsbrgr.soulsession.nowinandroid",
+        packageName = "com.zgsbrgr.soulsession",
         metrics = listOf(StartupTimingMetric()),
         compilationMode = compilationMode,
         iterations = 10,
