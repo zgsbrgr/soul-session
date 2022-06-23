@@ -36,6 +36,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -43,8 +44,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.zgsbrgr.soulsession.core.model.data.Episode
 import com.zgsbrgr.soulsession.core.ui.common.StaggeredVerticalGrid
-import com.zgsbrgr.soulsession.core.ui.theme.Red40
-import com.zgsbrgr.soulsession.core.ui.theme.SoulSessionTypo
 
 @Composable
 fun EpisodesRoute(
@@ -78,8 +77,8 @@ fun EpisodesScreen(
                 contentAlignment = Alignment.CenterStart
             ) {
                 Text(
-                    text = "SoulSession archive",
-                    style = SoulSessionTypo.headlineLarge,
+                    text = "Soul Session Episodes",
+                    style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.padding(16.dp)
                 )
             }
@@ -141,13 +140,15 @@ fun EpisodeItem(
         )
         Text(
             text = episode.title,
-            style = SoulSessionTypo.labelMedium,
+            style = MaterialTheme.typography.labelMedium,
             modifier = Modifier
                 .fillMaxWidth()
+                .height(50.dp)
                 .align(Alignment.BottomCenter)
-                .background(Red40.copy(alpha = 0.8f))
+                .background(Color(0xFF000000).copy(alpha = 0.8f))
                 .padding(8.dp),
-            maxLines = 2
+            maxLines = 2,
+
         )
     }
 }
