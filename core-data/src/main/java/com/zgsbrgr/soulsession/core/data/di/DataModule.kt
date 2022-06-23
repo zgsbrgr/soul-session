@@ -18,6 +18,8 @@ package com.zgsbrgr.soulsession.core.data.di
 
 import com.zgsbrgr.soulsession.core.data.repository.EpisodeRepository
 import com.zgsbrgr.soulsession.core.data.repository.EpisodeRepositoryImpl
+import com.zgsbrgr.soulsession.core.data.repository.TopicRepository
+import com.zgsbrgr.soulsession.core.data.repository.TopicRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -31,4 +33,9 @@ interface DataModule {
     fun bindsEpisodeRepository(
         episodeRepositoryImpl: EpisodeRepositoryImpl
     ): EpisodeRepository
+
+    @Binds
+    fun bindsTopicRepository(
+        topicRepositoryImpl: TopicRepositoryImpl
+    ): TopicRepository
 }

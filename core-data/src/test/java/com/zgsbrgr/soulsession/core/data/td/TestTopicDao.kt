@@ -86,4 +86,12 @@ class TestTopicDao : TopicDao {
     override suspend fun deleteTopics(ids: List<String>) {
         TODO("Not yet implemented")
     }
+
+    override fun getTopic(topicId: String): Flow<TopicEntity> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getTopicForEpisode(episodeId: String): Flow<TopicEntity> {
+        TODO("Not yet implemented")
+    }
 }
