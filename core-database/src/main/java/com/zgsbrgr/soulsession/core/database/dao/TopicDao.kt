@@ -31,6 +31,12 @@ interface TopicDao {
     @Query(value = "SELECT * FROM topics")
     fun getTopics(): Flow<List<TopicEntity>>
 
+    @Query(value = "SELECT * FROM topics WHERE id = :topicId")
+    fun getTopic(topicId: String): Flow<TopicEntity>
+
+    @Query(value = "SELECT * FROM topics WHERE episodeId = :episodeId")
+    fun getTopicForEpisode(episodeId: String): Flow<TopicEntity>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertOrIgnoreTopics(topicEntities: List<TopicEntity>): List<Long>
 
