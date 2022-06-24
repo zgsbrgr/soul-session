@@ -16,6 +16,8 @@
 
 package com.zgsbrgr.soulsession.core.model.data
 
+/* ktlint-disable max-line-length */
+
 data class Topic(
     val id: String,
     val title: String,
