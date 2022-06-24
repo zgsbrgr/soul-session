@@ -95,6 +95,7 @@ fun testEpisode(
     title: String = ""
 ) = EpisodeEntity(
     id = id,
+    thumbnail = "",
     title = title,
     date = ""
 )
