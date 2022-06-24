@@ -18,10 +18,12 @@ package com.zgsbrgr.soulsession.feature.episode
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -49,14 +51,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.zgsbrgr.soulsession.core.model.data.Episode
 import com.zgsbrgr.soulsession.core.model.data.Topic
+import com.zgsbrgr.soulsession.core.model.data.previewEpisode
+import com.zgsbrgr.soulsession.core.model.data.topicPreview
 import com.zgsbrgr.soulsession.core.ui.R
 import com.zgsbrgr.soulsession.core.ui.common.NavigateUpButton
+import com.zgsbrgr.soulsession.core.ui.component.SoulSessionBackground
+import com.zgsbrgr.soulsession.core.ui.theme.SoulSessionTheme
 
 /* ktlint-disable max-line-length */
 
@@ -84,14 +91,14 @@ fun EpisodeRoute(
 fun EpisodeScreen(
     uiState: EpisodeUiState,
     modifier: Modifier,
-    viewModel: EpisodeViewModel,
+    viewModel: EpisodeViewModel = hiltViewModel(),
     onNavigateUpClick: () -> Unit,
     onPodcastPlayClick: (Topic?) -> Unit
 ) {
 
     val scrollState = rememberScrollState()
 
-    Column(modifier = Modifier.statusBarsPadding()) {
+    Column(modifier = modifier.statusBarsPadding()) {
         Row {
             NavigateUpButton(
                 onClick = onNavigateUpClick
@@ -256,7 +263,8 @@ fun Information(
             modifier = modifier
                 .fillMaxWidth()
                 .height(20.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            //horizontalArrangement  =  Arrangement.SpaceBetween
         ) {
             Image(
                 painterResource(
@@ -299,5 +307,41 @@ fun Topic(topic: Topic, modifier: Modifier) {
             modifier = modifier.alpha(0.8f)
         )
         Spacer(modifier = modifier.height(16.dp))
+    }
+}
+
+
+@Preview
+@Composable
+fun InformationPreview() {
+    Information(episode = previewEpisode, modifier = Modifier)
+}
+
+@Preview
+@Composable
+fun TopicPreview() {
+    SoulSessionTheme {
+        SoulSessionBackground {
+            Topic(
+                topic = topicPreview,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun EpisodeScreenPreview() {
+    SoulSessionTheme {
+        SoulSessionBackground {
+            EpisodeScreen(
+                uiState = EpisodeUiState.Success(previewEpisode),
+                modifier = Modifier,
+                onNavigateUpClick = {  },
+                onPodcastPlayClick = {  }
+            )
+        }
+
     }
 }
