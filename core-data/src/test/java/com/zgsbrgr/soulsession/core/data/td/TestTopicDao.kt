@@ -88,10 +88,10 @@ class TestTopicDao : TopicDao {
     }
 
     override fun getTopic(topicId: String): Flow<TopicEntity> {
-        TODO("Not yet implemented")
+        return entityStateFlow
     }
 
     override fun getTopicForEpisode(episodeId: String): Flow<TopicEntity> {
-        TODO("Not yet implemented")
+        return entityStateFlow
     }
 }
