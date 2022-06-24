@@ -16,6 +16,11 @@
 
 package com.zgsbrgr.soulsession.feature.episodes
 
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,6 +31,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
@@ -36,14 +42,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.zgsbrgr.soulsession.core.model.data.Episode
+import com.zgsbrgr.soulsession.core.ui.R
 import com.zgsbrgr.soulsession.core.ui.common.StaggeredVerticalGrid
+import com.zgsbrgr.soulsession.core.ui.component.SoulSessionBackground
+import com.zgsbrgr.soulsession.core.ui.theme.SoulSessionTheme
+
 
 @Composable
 fun EpisodesRoute(
@@ -70,56 +82,93 @@ fun EpisodesScreen(
 
     val scrollState = rememberLazyListState()
 
-    LazyColumn(state = scrollState, modifier = modifier.statusBarsPadding()) {
-        item {
-            Box(
-                modifier = Modifier.height(100.dp),
-                contentAlignment = Alignment.CenterStart
-            ) {
-                Text(
-                    text = "Soul Session Episodes",
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
-        }
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
         when (uiState) {
             is EpisodesUiState.Success -> {
-                item {
-
-                    StaggeredVerticalGrid(
-                        columnCount = 2,
-                        spacing = 16.dp,
-                        modifier = Modifier.padding(horizontal = 16.dp)
-
-                    ) {
-                        uiState.episodes.forEach { episode ->
-                            EpisodeItem(
-                                episode = episode,
-                                modifier = Modifier.padding(bottom = 16.dp),
-                                onClick = {
-                                    navigateToEpisode(episode.id)
-                                }
-
+                LazyColumn(state = scrollState, modifier = modifier.statusBarsPadding()) {
+                    item {
+                        Box(
+                            modifier = Modifier.height(100.dp),
+                            contentAlignment = Alignment.CenterStart
+                        ) {
+                            Text(
+                                text = "Soul Session Episodes",
+                                style = MaterialTheme.typography.titleLarge,
+                                modifier = Modifier.padding(16.dp)
                             )
                         }
                     }
+                    item {
+
+                        StaggeredVerticalGrid(
+                            columnCount = 2,
+                            spacing = 16.dp,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+
+                        ) {
+                            uiState.episodes.forEach { episode ->
+                                EpisodeItem(
+                                    episode = episode,
+                                    modifier = Modifier.padding(bottom = 16.dp),
+                                    onClick = {
+                                        navigateToEpisode(episode.id)
+                                    }
+
+                                )
+                            }
+                        }
+                    }
+
                 }
+
             }
             is EpisodesUiState.Loading -> {
-                // TODO
-                item {
-                    Text(text = "page is loading")
-                }
+                Loader()
             }
             is EpisodesUiState.Error -> {
-                // TODO
-                item {
-                    Text(text = "some error occured")
-                }
+                Error()
             }
         }
+
     }
+
+}
+
+@Composable
+fun Loader() {
+    val infiniteTransition = rememberInfiniteTransition()
+
+    val rotate by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(500),
+            repeatMode = RepeatMode.Restart
+        )
+    )
+    Image(
+        painterResource(id = R.drawable.sync_fill0_wght400_grad0_opsz48),
+        contentDescription = "loading",
+        modifier = Modifier
+            .width(50.dp)
+            .height(50.dp)
+            .rotate(rotate)
+                )
+}
+
+@Composable
+fun Error() {
+    Image(
+        painter = painterResource(id = R.drawable.cloud_off_fill0_wght400_grad0_opsz48),
+        contentDescription = "error loading",
+        modifier = Modifier
+            .width(80.dp)
+            .height(80.dp)
+
+    )
 }
 
 @Composable
@@ -175,11 +224,24 @@ fun EpisodeImage(
             )
         } else {
             Image(
-                painterResource(com.zgsbrgr.soulsession.core.ui.R.drawable.ss),
+                painterResource(R.drawable.ss),
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun EpisodesLoadingPreview() {
+    SoulSessionTheme {
+        SoulSessionBackground {
+            EpisodesScreen(
+                uiState = EpisodesUiState.Loading,
+                navigateToEpisode = {   },
+                modifier = Modifier.fillMaxSize())
         }
     }
 }
