@@ -86,21 +86,13 @@ import com.zgsbrgr.soulsession.core.model.data.Topic
 import com.zgsbrgr.soulsession.core.ui.common.IconButton
 import kotlin.math.roundToInt
 
-@Composable
-fun PlayerRoute(
-    onBackClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: PlayerViewModel = hiltViewModel()
-) {
-}
 
 @Composable
 fun PlayerScreen(
     modifier: Modifier,
-    onNavigateUpClick: () -> Unit,
-    viewModel: PlayerViewModel = hiltViewModel()
+    viewModel: PlayerViewModel = hiltViewModel(),
+    onNavigateUpClick: () -> Unit
 ) {
-
     val selectedTopic = viewModel.selectedTopic.collectAsState()
 
     if ((selectedTopic.value as Topic?) != null) {
@@ -108,14 +100,6 @@ fun PlayerScreen(
         viewModel.playPodcast(t)
     } else
         viewModel.pausePlayback()
-    Play(viewModel = viewModel, onNavigateUpClick)
-}
-
-@Composable
-fun Play(
-    viewModel: PlayerViewModel,
-    onNavigateUpClick: () -> Unit
-) {
 
     val topic = viewModel.currentPlaying.collectAsState()
     AnimatedVisibility(
