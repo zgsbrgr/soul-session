@@ -56,7 +56,6 @@ import com.zgsbrgr.soulsession.core.ui.common.StaggeredVerticalGrid
 import com.zgsbrgr.soulsession.core.ui.component.SoulSessionBackground
 import com.zgsbrgr.soulsession.core.ui.theme.SoulSessionTheme
 
-
 @Composable
 fun EpisodesRoute(
     modifier: Modifier = Modifier,
@@ -121,9 +120,7 @@ fun EpisodesScreen(
                             }
                         }
                     }
-
                 }
-
             }
             is EpisodesUiState.Loading -> {
                 Loader()
@@ -132,9 +129,7 @@ fun EpisodesScreen(
                 Error()
             }
         }
-
     }
-
 }
 
 @Composable
@@ -156,7 +151,7 @@ fun Loader() {
             .width(50.dp)
             .height(50.dp)
             .rotate(rotate)
-                )
+    )
 }
 
 @Composable
@@ -240,8 +235,9 @@ fun EpisodesLoadingPreview() {
         SoulSessionBackground {
             EpisodesScreen(
                 uiState = EpisodesUiState.Loading,
-                navigateToEpisode = {   },
-                modifier = Modifier.fillMaxSize())
+                navigateToEpisode = { },
+                modifier = Modifier.fillMaxSize()
+            )
         }
     }
 }

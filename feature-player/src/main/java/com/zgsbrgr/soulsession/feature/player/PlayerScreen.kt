@@ -86,7 +86,6 @@ import com.zgsbrgr.soulsession.core.model.data.Topic
 import com.zgsbrgr.soulsession.core.ui.common.IconButton
 import kotlin.math.roundToInt
 
-
 @Composable
 fun PlayerScreen(
     modifier: Modifier,
@@ -120,7 +119,11 @@ fun PlayerScreen(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PlayerContent(topic: Topic, viewModel: PlayerViewModel, onNavigateUpClick: () -> Unit) {
+fun PlayerContent(
+    topic: Topic,
+    viewModel: PlayerViewModel = hiltViewModel(),
+    onNavigateUpClick: () -> Unit
+) {
 
     val swipeableState = rememberSwipeableState(0)
 

@@ -18,7 +18,6 @@ package com.zgsbrgr.soulsession.feature.episode
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -264,7 +263,7 @@ fun Information(
                 .fillMaxWidth()
                 .height(20.dp),
             verticalAlignment = Alignment.CenterVertically,
-            //horizontalArrangement  =  Arrangement.SpaceBetween
+            // horizontalArrangement  =  Arrangement.SpaceBetween
         ) {
             Image(
                 painterResource(
@@ -310,7 +309,6 @@ fun Topic(topic: Topic, modifier: Modifier) {
     }
 }
 
-
 @Preview
 @Composable
 fun InformationPreview() {
@@ -338,10 +336,9 @@ fun EpisodeScreenPreview() {
             EpisodeScreen(
                 uiState = EpisodeUiState.Success(previewEpisode),
                 modifier = Modifier,
-                onNavigateUpClick = {  },
-                onPodcastPlayClick = {  }
+                onNavigateUpClick = { },
+                onPodcastPlayClick = { }
             )
         }
-
     }
 }
