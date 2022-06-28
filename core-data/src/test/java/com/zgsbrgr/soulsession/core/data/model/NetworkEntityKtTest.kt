@@ -31,6 +31,7 @@ class NetworkEntityKtTest {
             title = "topic title",
             episodeId = "0",
             description = "topic description",
+            subtitle = "topic subtitle",
             image = "topic image url",
             start = "topic start time",
             location = "topic location",
@@ -47,6 +48,7 @@ class NetworkEntityKtTest {
         Assert.assertEquals("topic title", entity.title)
         Assert.assertEquals("0", entity.episodeId)
         Assert.assertEquals("topic description", entity.description)
+        Assert.assertEquals("topic subtitle", entity.subtitle)
         Assert.assertEquals("topic image url", entity.imageUrl)
         Assert.assertEquals("topic start time", entity.startTime)
         Assert.assertEquals("topic location", entity.location)
@@ -65,6 +67,7 @@ class NetworkEntityKtTest {
             title = "topic title",
             episodeId = "0",
             description = "topic description",
+            subtitle = "topic subtitle",
             image = "topic image url",
             start = "topic start time",
             location = "topic location",

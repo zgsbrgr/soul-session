@@ -24,6 +24,7 @@ fun NetworkTopic.asEntity() = TopicEntity(
     title = title,
     episodeId = episodeId,
     description = description,
+    subtitle = subtitle,
     imageUrl = image,
     startTime = start,
     location = location,

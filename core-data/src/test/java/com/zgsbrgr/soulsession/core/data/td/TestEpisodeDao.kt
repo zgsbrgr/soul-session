@@ -91,6 +91,7 @@ private fun EpisodeEntity.asEpisodeWithTopic() = EpisodeWithTopic(
         episodeId = this.id,
         title = "title",
         description = "description",
+        subtitle = "subtitle",
         imageUrl = "image url",
         startTime = "start time",
         location = "location",

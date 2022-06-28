@@ -39,6 +39,7 @@ data class TopicEntity(
     val episodeId: String,
     val title: String,
     val description: String,
+    val subtitle: String?,
     @ColumnInfo(name = "image_url")
     val imageUrl: String?,
     @ColumnInfo(name = "start_time")
@@ -59,6 +60,7 @@ fun TopicEntity.asExternalModel() = Topic(
     title = title,
     episodeId = episodeId,
     description = description,
+    subtitle = subtitle,
     imageUrl = imageUrl,
     startTime = startTime,
     location = location,
