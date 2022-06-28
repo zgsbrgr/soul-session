@@ -25,7 +25,6 @@ import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
-import android.util.Log
 import androidx.media.MediaBrowserServiceCompat
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
@@ -75,7 +74,7 @@ class MediaService : MediaBrowserServiceCompat() {
 
     override fun onCreate() {
         super.onCreate()
-        Log.i(TAG, "onCreate called")
+
         val pendingFlags = when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
             -> PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
@@ -151,7 +150,6 @@ class MediaService : MediaBrowserServiceCompat() {
         parentId: String,
         result: Result<MutableList<MediaBrowserCompat.MediaItem>>
     ) {
-        Log.i(TAG, "onLoadChildren called")
         when (parentId) {
             Constant.MEDIA_ROOT_ID -> {
                 val resultsSent = mediaSource.whenReady { isInitialized ->
