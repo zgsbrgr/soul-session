@@ -26,6 +26,7 @@ data class NetworkTopic(
     @SerialName("episode_id")
     val episodeId: String,
     val description: String,
+    val subtitle: String? = null,
     val image: String? = null,
     val start: String? = null,
     val location: String? = null,
