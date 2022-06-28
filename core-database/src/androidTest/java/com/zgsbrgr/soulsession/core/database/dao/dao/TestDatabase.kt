@@ -98,7 +98,8 @@ fun testEpisode(
     id = id,
     thumbnail = "",
     title = title,
-    date = ""
+    date = "",
+    favorite = false,
 )
 
 fun EpisodeEntity.topicEntityShell() = TopicEntity(

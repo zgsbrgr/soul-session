@@ -17,11 +17,21 @@
 package com.zgsbrgr.soulsession.core.data.model
 
 import com.zgsbrgr.soulsession.core.database.model.EpisodeEntity
+import com.zgsbrgr.soulsession.core.model.data.Episode
 import com.zgsbrgr.soulsession.core.network.model.NetworkEpisode
 
 fun NetworkEpisode.asEntity() = EpisodeEntity(
     id = id,
     thumbnail = thumbnail,
     title = title,
-    date = date
+    date = date,
+    favorite = false
+)
+
+fun Episode.asEntity() = EpisodeEntity(
+    id = id,
+    thumbnail = thumbnail,
+    title = title,
+    date = date,
+    favorite = favorite
 )

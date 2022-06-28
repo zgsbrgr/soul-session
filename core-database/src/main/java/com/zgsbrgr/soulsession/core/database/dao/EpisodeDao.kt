@@ -49,6 +49,9 @@ interface EpisodeDao {
     @Update
     suspend fun updateEpisode(episodeEntity: EpisodeEntity)
 
+    @Query(value = "UPDATE episodes SET favorite = :favorite WHERE id = :episodeId")
+    suspend fun favoriteEpisode(episodeId: String, favorite: Boolean)
+
     @Transaction
     suspend fun upsertEpisodes(entities: List<EpisodeEntity>) = upsert(
         items = entities,

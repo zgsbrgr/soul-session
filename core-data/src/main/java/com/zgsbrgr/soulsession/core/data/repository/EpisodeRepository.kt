@@ -30,4 +30,6 @@ interface EpisodeRepository {
      * Gets a specific episode
      */
     fun getEpisodeStream(id: String): Flow<Episode>
+
+    suspend fun episodeFavorite(episodeId: String, favourite: Boolean)
 }

@@ -23,6 +23,7 @@ data class Episode(
     val thumbnail: String,
     val title: String,
     val date: String,
+    val favorite: Boolean,
     val topic: Topic
 )
 
@@ -32,5 +33,6 @@ val previewEpisode =
         thumbnail = "https://jazzy.hu/wp-content/uploads/2022/04/278671792_5306610999369986_2852743997620834752_n.jpg",
         title = "Terri Green és Randy Hall a szombat esti Soul Sessionben!",
         date = "2022.04.05",
+        favorite = false,
         topic = topicPreview
     )

@@ -16,6 +16,9 @@
 
 package com.zgsbrgr.soulsession.feature.episode
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -35,15 +38,18 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class EpisodeViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    episodeRepository: EpisodeRepository,
+    private val episodeRepository: EpisodeRepository,
     private val appEventBus: AppEventBus
 ) : ViewModel() {
 
     val selectedPodcast = appEventBus.selectedItem
+
+    var favourited by mutableStateOf(false)
 
     private val episodeId: String = checkNotNull(
         savedStateHandle[EpisodeDestination.episodeIdArg]
@@ -60,7 +66,10 @@ class EpisodeViewModel @Inject constructor(
         episode.onEach { episodeResult ->
             val episodeState: EpisodeUiState =
                 when (episodeResult) {
-                    is Result.Success -> EpisodeUiState.Success(episodeResult.data)
+                    is Result.Success -> {
+                        favourited = episodeResult.data.favorite
+                        EpisodeUiState.Success(episodeResult.data)
+                    }
                     is Result.Error -> EpisodeUiState.Error
                     is Result.Loading -> EpisodeUiState.Loading
                 }
@@ -74,6 +83,11 @@ class EpisodeViewModel @Inject constructor(
 
     fun selectTopic(topic: Topic?) {
         appEventBus.postMessage(topic)
+    }
+
+    fun favorite() = viewModelScope.launch {
+        episodeRepository.episodeFavorite(episodeId, !favourited)
+        // favourited = !favourited
     }
 }
 

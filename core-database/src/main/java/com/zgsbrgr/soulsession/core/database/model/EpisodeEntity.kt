@@ -27,5 +27,6 @@ data class EpisodeEntity(
     val id: String,
     val thumbnail: String,
     val title: String,
-    val date: String
+    val date: String,
+    val favorite: Boolean
 )

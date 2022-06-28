@@ -34,5 +34,6 @@ fun EpisodeWithTopic.asExternalModel() = Episode(
     thumbnail = episode.thumbnail,
     title = episode.title,
     date = episode.date,
+    favorite = episode.favorite,
     topic = topic.asExternalModel()
 )

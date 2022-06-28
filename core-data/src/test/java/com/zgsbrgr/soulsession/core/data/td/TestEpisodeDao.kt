@@ -32,7 +32,8 @@ class TestEpisodeDao : EpisodeDao {
                 id = "0",
                 thumbnail = "thumbnail",
                 title = "title",
-                date = "date"
+                date = "date",
+                favorite = false
             )
         )
 
@@ -43,7 +44,8 @@ class TestEpisodeDao : EpisodeDao {
             id = "0",
             thumbnail = "thumbnail",
             title = "title",
-            date = "date"
+            date = "date",
+            favorite = false
         )
     )
 
@@ -65,6 +67,10 @@ class TestEpisodeDao : EpisodeDao {
     override suspend fun insertOrIgnoreEpisode(episodeEntity: EpisodeEntity): Long {
         entityStateFlow.value = episodeEntity
         return episodeEntity.id.toLong()
+    }
+
+    override suspend fun favoriteEpisode(episodeId: String, favorite: Boolean) {
+        TODO("Not yet implemented")
     }
 
     override suspend fun updateEpisodes(episodeEntities: List<EpisodeEntity>) {

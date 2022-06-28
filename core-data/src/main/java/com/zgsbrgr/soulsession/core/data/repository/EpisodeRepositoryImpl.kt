@@ -61,4 +61,9 @@ class EpisodeRepositoryImpl @Inject constructor(
         episodeDao.getEpisodeStream(id).map {
             it.asExternalModel()
         }
+
+    override suspend fun episodeFavorite(episodeId: String, favourite: Boolean) =
+        withContext(ioDispatcher) {
+            episodeDao.favoriteEpisode(episodeId, favourite)
+        }
 }
