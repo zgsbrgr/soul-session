@@ -16,6 +16,7 @@
 
 package com.zgsbrgr.soulsession.navigation
 
+import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -39,7 +40,8 @@ fun SoulSessionNavHost(
     windowSizeClass: WindowSizeClass,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = EpisodesDestination.route
+    startDestination: String = EpisodesDestination.route,
+    backDispatcher: OnBackPressedDispatcher
 ) {
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -65,7 +67,7 @@ fun SoulSessionNavHost(
         )
         PlayerScreen(
             modifier = modifier,
-            onNavigateUpClick = {}
+            backDispatcher = backDispatcher
         )
     }
 }

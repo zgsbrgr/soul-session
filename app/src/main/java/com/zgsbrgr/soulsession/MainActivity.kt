@@ -35,7 +35,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SSessionApp(
-                calculateWindowSizeClass(activity = this)
+                calculateWindowSizeClass(activity = this),
+                backDispatcher = onBackPressedDispatcher
             )
         }
     }

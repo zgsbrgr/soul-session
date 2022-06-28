@@ -16,6 +16,7 @@
 
 package com.zgsbrgr.soulsession.ui
 
+import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -41,7 +42,8 @@ import com.zgsbrgr.soulsession.navigation.SoulSessionNavHost
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun SSessionApp(
-    windowSizeClass: WindowSizeClass
+    windowSizeClass: WindowSizeClass,
+    backDispatcher: OnBackPressedDispatcher
 ) {
     SoulSessionTheme {
         val navController = rememberNavController()
@@ -68,7 +70,8 @@ fun SSessionApp(
                         navController = navController,
                         modifier = Modifier
                             .padding(padding)
-                            .consumedWindowInsets(padding)
+                            .consumedWindowInsets(padding),
+                        backDispatcher = backDispatcher
                     )
                 }
             }
