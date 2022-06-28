@@ -43,7 +43,7 @@ class EpisodeViewModel @Inject constructor(
     private val appEventBus: AppEventBus
 ) : ViewModel() {
 
-    val selectedPodcast = appEventBus.selectedTopic
+    val selectedPodcast = appEventBus.selectedItem
 
     private val episodeId: String = checkNotNull(
         savedStateHandle[EpisodeDestination.episodeIdArg]

@@ -46,7 +46,7 @@ class PlayerViewModel @Inject constructor(
 
     val currentPlaying = serviceConnection.currentPlayingTopic
 
-    val selectedTopic = appEventBus.selectedTopic
+    val selectedTopic = appEventBus.selectedItem
 
     var showPlayerFullScreen by mutableStateOf(false)
 

@@ -21,20 +21,10 @@ import kotlinx.coroutines.flow.asStateFlow
 
 class AppEventBus {
 
-    private val _selectedTopic = MutableStateFlow<Any?>(null)
-    val selectedTopic = _selectedTopic.asStateFlow()
+    private val _selectedItem = MutableStateFlow<Any?>(null)
+    val selectedItem = _selectedItem.asStateFlow()
 
     fun <T> postMessage(message: T) {
-        _selectedTopic.value = message
+        _selectedItem.value = message
     }
 }
-
-sealed interface PlaybackState {
-    data class Playing(val item: Any) : PlaybackState
-    data class Paused(val item: Any) : PlaybackState
-    object Stopped : PlaybackState
-}
-
-data class PlaybackStateData(
-    val itemPlaybackState: PlaybackState = PlaybackState.Stopped
-)
