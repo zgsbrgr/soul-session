@@ -182,14 +182,14 @@ fun SmallPlayerStatelessContent(
                     .padding(8.dp),
             ) {
                 Text(
-                    topic.title,
+                    topic.subtitle ?: topic.title,
                     style = MaterialTheme.typography.body2,
                     color = Color.White,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
 
-                topic.description?.let { description ->
+                topic.location?.let { description ->
                     Text(
                         description,
                         style = MaterialTheme.typography.body2,

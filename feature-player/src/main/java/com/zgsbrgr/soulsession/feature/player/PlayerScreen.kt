@@ -17,6 +17,7 @@
 package com.zgsbrgr.soulsession.feature.player
 
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
@@ -90,7 +91,7 @@ import kotlin.math.roundToInt
 fun PlayerScreen(
     modifier: Modifier,
     viewModel: PlayerViewModel = hiltViewModel(),
-    onNavigateUpClick: () -> Unit
+    backDispatcher: OnBackPressedDispatcher
 ) {
     val selectedTopic = viewModel.selectedTopic.collectAsState()
 
@@ -112,7 +113,7 @@ fun PlayerScreen(
 
     ) {
         topic.value?.let {
-            PlayerContent(it, viewModel, onNavigateUpClick)
+            PlayerContent(it, viewModel, backDispatcher)
         }
     }
 }
@@ -122,7 +123,7 @@ fun PlayerScreen(
 fun PlayerContent(
     topic: Topic,
     viewModel: PlayerViewModel = hiltViewModel(),
-    onNavigateUpClick: () -> Unit
+    backDispatcher: OnBackPressedDispatcher
 ) {
 
     val swipeableState = rememberSwipeableState(0)
@@ -130,18 +131,17 @@ fun PlayerContent(
     // TODO add status bar height
     val endAnchor = LocalConfiguration.current.screenHeightDp * LocalDensity.current.density + 300
 
-    val anchors = mapOf(
-        0f to 0,
-        endAnchor to 1
-    )
-
-    val backCallback = remember {
+    val backPressedCallback = remember {
         object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 viewModel.showPlayerFullScreen = false
             }
         }
     }
+    val anchors = mapOf(
+        0f to 0,
+        endAnchor to 1
+    )
 
     val backgroundColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f)
     var gradientColor by remember {
@@ -225,11 +225,11 @@ fun PlayerContent(
         viewModel.updateCurrentPlaybackPosition()
     }
 
-    DisposableEffect(onNavigateUpClick) {
-        // backDispatcher.addCallback(backCallback)
+    DisposableEffect(backDispatcher) {
+        backDispatcher.addCallback(backPressedCallback)
 
         onDispose {
-            backCallback.remove()
+            backPressedCallback.remove()
             viewModel.showPlayerFullScreen = false
         }
     }
@@ -324,13 +324,13 @@ fun PodcastPlayerContent(
                         }
 
                         Text(
-                            topic.title,
+                            topic.subtitle ?: topic.title,
                             style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )
-                        topic.description?.let {
+                        topic.location?.let {
                             Spacer(modifier = Modifier.height(10.dp))
                             Text(
                                 it,
