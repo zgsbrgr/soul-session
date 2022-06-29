@@ -129,7 +129,6 @@ fun SmallPlayer(
         SmallPlayerStatelessContent(
             topic = topic,
             xOffset = swipeableState.offset.value.roundToInt(),
-            darkTheme = isSystemInDarkTheme(),
             icon = iconResId,
             onTogglePlaybackState = {
                 viewModel.togglePlaybackState()
@@ -144,7 +143,6 @@ fun SmallPlayer(
 fun SmallPlayerStatelessContent(
     topic: Topic,
     xOffset: Int,
-    darkTheme: Boolean,
     @DrawableRes icon: Int,
     onTogglePlaybackState: () -> Unit,
     onTap: (Offset) -> Unit,
@@ -152,9 +150,7 @@ fun SmallPlayerStatelessContent(
     Box(
         modifier = Modifier
             .offset { IntOffset(xOffset, 0) }
-            // .background(if (darkTheme) Color(0xFF343434) else Color(0xFFF1F1F1))
-            // .background(Color(0xFF343434))
-            .background(Color(0xFF000000))
+            .background(Color(0xFF2D302D).copy(alpha = 0.9f))
             .navigationBarsPadding()
             .height(64.dp)
             .fillMaxWidth()
@@ -206,7 +202,6 @@ fun SmallPlayerStatelessContent(
             Icon(
                 painter = painterResource(icon),
                 contentDescription = stringResource(R.string.play),
-                // tint = MaterialTheme.colors.onBackground,
                 tint = MaterialTheme.colors.onPrimary,
                 modifier = Modifier
                     .padding(end = 8.dp)
