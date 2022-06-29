@@ -26,6 +26,8 @@ import com.zgsbrgr.soulsession.core.database.model.EpisodeEntity
 import com.zgsbrgr.soulsession.core.database.model.EpisodeWithTopic
 import kotlinx.coroutines.flow.Flow
 
+/* ktlint-disable max-line-length */
+
 @Dao
 interface EpisodeDao {
 
@@ -46,17 +48,31 @@ interface EpisodeDao {
     @Update
     suspend fun updateEpisodes(episodeEntities: List<EpisodeEntity>)
 
+    @Query(value = "UPDATE episodes SET thumbnail = :thumbnail, title = :title, date = :date WHERE id = :id")
+    suspend fun updateEpisode(id: String, thumbnail: String, title: String, date: String)
+
     @Update
     suspend fun updateEpisode(episodeEntity: EpisodeEntity)
 
     @Query(value = "UPDATE episodes SET favorite = :favorite WHERE id = :episodeId")
     suspend fun favoriteEpisode(episodeId: String, favorite: Boolean)
 
+    private suspend fun updateEpisodesKeepFavorite(episodeEntities: List<EpisodeEntity>) {
+        for (episodeEntity in episodeEntities) {
+            updateEpisode(
+                episodeEntity.id,
+                episodeEntity.thumbnail,
+                episodeEntity.title,
+                episodeEntity.date
+            )
+        }
+    }
+
     @Transaction
     suspend fun upsertEpisodes(entities: List<EpisodeEntity>) = upsert(
         items = entities,
         insertMany = ::insertOrIgnoreEpisodes,
-        updateMany = ::updateEpisodes
+        updateMany = ::updateEpisodesKeepFavorite
     )
 
     @Query(
