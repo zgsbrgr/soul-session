@@ -87,7 +87,6 @@ class EpisodeViewModel @Inject constructor(
 
     fun favorite() = viewModelScope.launch {
         episodeRepository.episodeFavorite(episodeId, !favourited)
-        // favourited = !favourited
     }
 }
 

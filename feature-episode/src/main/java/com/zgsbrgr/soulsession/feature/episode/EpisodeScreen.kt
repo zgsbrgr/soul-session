@@ -36,7 +36,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -49,10 +48,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -62,7 +59,7 @@ import com.zgsbrgr.soulsession.core.model.data.Episode
 import com.zgsbrgr.soulsession.core.model.data.Topic
 import com.zgsbrgr.soulsession.core.model.data.previewEpisode
 import com.zgsbrgr.soulsession.core.model.data.topicPreview
-import com.zgsbrgr.soulsession.core.ui.common.IconButton
+import com.zgsbrgr.soulsession.core.ui.common.FavoriteButton
 import com.zgsbrgr.soulsession.core.ui.common.NavigateUpButton
 import com.zgsbrgr.soulsession.core.ui.component.SoulSessionBackground
 import com.zgsbrgr.soulsession.core.ui.theme.SoulSessionTheme
@@ -108,19 +105,12 @@ fun EpisodeScreen(
             NavigateUpButton(
                 onClick = onNavigateUpClick
             )
-
-            IconButton(
-                imageVector =
-                if (viewModel.favourited)
-                    Icons.Default.Star
-                else
-                    ImageVector
-                        .vectorResource(
-                            id = R.drawable.grade_fill0_wght400_grad0_opsz48
-                        ),
-                contentDescription = "star icon",
-                onClick = { viewModel.favorite() },
-                modifier = Modifier.padding(top = 8.dp).width(60.dp).height(60.dp)
+            FavoriteButton(
+                isFavorite = viewModel.favourited,
+                modifier = Modifier.padding(top = 8.dp),
+                onClick = {
+                    viewModel.favorite()
+                }
             )
         }
         Column(
