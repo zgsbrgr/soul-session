@@ -36,27 +36,47 @@ class EpisodesViewModel @Inject constructor(
     private val episodeRepository: EpisodeRepository
 ) : ViewModel() {
 
+    val favorite = MutableStateFlow<Boolean>(false)
+
     private val _uiState = MutableStateFlow(EpisodesScreenUiState())
     val uiState: StateFlow<EpisodesScreenUiState> = _uiState.asStateFlow()
 
     init {
 
         viewModelScope.launch {
-            val response: Flow<Result<List<Episode>>> =
-                episodeRepository.getEpisodesStream().asResult()
-
-            response.collect { responseResult ->
-                val episodes = when (responseResult) {
-                    is Result.Success -> EpisodesUiState.Success(responseResult.data)
-                    is Result.Error -> EpisodesUiState.Error
-                    is Result.Loading -> EpisodesUiState.Loading
-                }
-                _uiState.update {
-                    it.copy(
-                        episodesState = episodes
-                    )
-                }
+            // favorite state changes triggers data collection
+            favorite.collect {
+                updateData()
             }
+        }
+    }
+
+    private fun updateData() = viewModelScope.launch {
+        val response: Flow<Result<List<Episode>>> =
+            episodeRepository.getEpisodesStream().asResult()
+
+        response.collect { responseResult ->
+            val episodes = when (responseResult) {
+                is Result.Success -> EpisodesUiState.Success(
+                    responseResult.data.filter {
+                        it.favorite == favorite.value
+                    }
+                )
+                is Result.Error -> EpisodesUiState.Error
+                is Result.Loading -> EpisodesUiState.Loading
+            }
+            _uiState.update {
+                it.copy(
+                    episodesState = episodes
+                )
+            }
+        }
+    }
+
+    fun toggleFavorite() {
+        viewModelScope.launch {
+            // on favorite button toggle, change state of favorite
+            this@EpisodesViewModel.favorite.emit(!favorite.value)
         }
     }
 }

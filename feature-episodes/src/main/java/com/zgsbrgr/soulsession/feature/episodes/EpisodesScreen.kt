@@ -24,7 +24,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,6 +41,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,6 +55,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.zgsbrgr.soulsession.core.model.data.Episode
 import com.zgsbrgr.soulsession.core.ui.R
+import com.zgsbrgr.soulsession.core.ui.common.FavoriteButton
 import com.zgsbrgr.soulsession.core.ui.common.StaggeredVerticalGrid
 import com.zgsbrgr.soulsession.core.ui.component.SoulSessionBackground
 import com.zgsbrgr.soulsession.core.ui.theme.SoulSessionTheme
@@ -76,14 +80,17 @@ fun EpisodesRoute(
 fun EpisodesScreen(
     uiState: EpisodesUiState,
     navigateToEpisode: (String) -> Unit,
-    modifier: Modifier
+    modifier: Modifier,
+    viewModel: EpisodesViewModel = hiltViewModel()
 ) {
 
     val scrollState = rememberLazyListState()
 
+    val favorite by viewModel.favorite.collectAsState()
+
     Box(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+
     ) {
         when (uiState) {
             is EpisodesUiState.Success -> {
@@ -93,11 +100,20 @@ fun EpisodesScreen(
                             modifier = Modifier.height(100.dp),
                             contentAlignment = Alignment.CenterStart
                         ) {
-                            Text(
-                                text = "Soul Session Episodes",
-                                style = MaterialTheme.typography.titleLarge,
-                                modifier = Modifier.padding(16.dp)
-                            )
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "Soul Session Episodes",
+                                    style = MaterialTheme.typography.titleLarge,
+                                    modifier = Modifier.padding(16.dp)
+                                )
+                                FavoriteButton(
+                                    isFavorite = favorite,
+                                    onClick = { viewModel.toggleFavorite() }
+                                )
+                            }
                         }
                     }
                     item {
@@ -123,10 +139,20 @@ fun EpisodesScreen(
                 }
             }
             is EpisodesUiState.Loading -> {
-                Loader()
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Loader()
+                }
             }
             is EpisodesUiState.Error -> {
-                Error()
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Error()
+                }
             }
         }
     }
