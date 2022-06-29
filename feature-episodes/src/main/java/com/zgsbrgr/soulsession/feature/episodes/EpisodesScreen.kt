@@ -211,6 +211,7 @@ fun EpisodeItem(
         Text(
             text = episode.title,
             style = MaterialTheme.typography.labelMedium,
+            color = Color.White.copy(alpha = 0.8f),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
