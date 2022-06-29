@@ -238,14 +238,16 @@ fun Information(
                 .height(20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
+            Icon(
                 painterResource(
                     id =
-                    com.zgsbrgr.soulsession.feature.episode.R.drawable.timer_fill0_wght400_grad0_opsz48
+                    R.drawable.timer_fill0_wght400_grad0_opsz48
                 ),
                 contentDescription = "Time",
+                tint = MaterialTheme.colorScheme.onBackground,
                 modifier = modifier
                     .width(20.dp)
+
             )
             Spacer(modifier = modifier.width(10.dp))
             topic.startTime?.let { time ->
@@ -254,11 +256,12 @@ fun Information(
         }
         Spacer(modifier = modifier.height(10.dp))
         Row(modifier = modifier.height(20.dp), verticalAlignment = Alignment.CenterVertically) {
-            Image(
+            Icon(
                 painterResource(
-                    id = com.zgsbrgr.soulsession.feature.episode.R.drawable.home_pin_fill0_wght400_grad0_opsz48
+                    id = R.drawable.home_pin_fill0_wght400_grad0_opsz48
                 ),
                 contentDescription = "Location",
+                tint = MaterialTheme.colorScheme.onBackground,
                 modifier = modifier
                     .width(20.dp)
             )
@@ -275,24 +278,27 @@ fun Information(
             verticalAlignment = Alignment.CenterVertically,
             // horizontalArrangement  =  Arrangement.SpaceBetween
         ) {
-            Image(
-                painterResource(
-                    id = com.zgsbrgr.soulsession.feature.episode.R.drawable.alternate_email_fill0_wght400_grad0_opsz48
+            Icon(
+                painter = painterResource(
+                    id = R.drawable.alternate_email_fill0_wght400_grad0_opsz48
                 ),
                 contentDescription = "Email",
+                tint = MaterialTheme.colorScheme.onBackground,
                 modifier = modifier
                     .width(20.dp)
             )
+
             Spacer(modifier = modifier.width(10.dp))
             topic.email?.let { email ->
                 Text(text = email, style = MaterialTheme.typography.labelSmall, textAlign = TextAlign.Center)
             }
             Spacer(modifier = modifier.width(20.dp))
-            Image(
+            Icon(
                 painterResource(
-                    id = com.zgsbrgr.soulsession.feature.episode.R.drawable.call_fill0_wght400_grad0_opsz48
+                    id = R.drawable.call_fill0_wght400_grad0_opsz48
                 ),
                 contentDescription = "Phone",
+                tint = MaterialTheme.colorScheme.onBackground,
                 modifier = modifier
                     .width(20.dp)
             )
