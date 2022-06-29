@@ -16,7 +16,23 @@
 -->
 <resources>
 
-    <style name="Theme.SoulSession" parent="android:Theme.Material.Light.NoActionBar">
+    <style name="Platform.Theme.SoulSession" parent="Theme.Material3.DayNight">
         <item name="android:statusBarColor">@color/black30</item>
     </style>
+
+    <style name="Theme.SoulSession" parent="Platform.Theme.SoulSession">
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/teal_200</item>
+
+    </style>
+
+    <style name="Theme.SoulSession.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.SoulSession.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+
+    <style name="Theme.SoulSession.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 </resources>
