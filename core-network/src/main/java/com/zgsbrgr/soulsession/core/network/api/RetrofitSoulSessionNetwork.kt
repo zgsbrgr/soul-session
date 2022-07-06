@@ -17,7 +17,6 @@
 package com.zgsbrgr.soulsession.core.network.api
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.zgsbrgr.soulsession.core.network.BuildConfig
 import com.zgsbrgr.soulsession.core.network.SoulSessionNetwork
 import com.zgsbrgr.soulsession.core.network.model.NetworkEpisode
 import javax.inject.Inject
@@ -30,6 +29,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.http.GET
 
+/* ktlint-disable max-line-length */
+
 /**
  * Retrofit API declaration
  */
@@ -39,7 +40,7 @@ private interface SoulSessionNetworkApi {
     suspend fun getEpisodes(): NetworkResponse<List<NetworkEpisode>>
 }
 
-private const val BaseUrl = BuildConfig.BASEURL
+private const val BaseUrl = "https://gist.githubusercontent.com/zgsbrgr/4c74d9ec5a057c904781ac418ebecc18/raw/f2c2d08e0033a3fb91aab736b079a1a003ce4701/"
 
 /**
  * Wrapper for data provided from the [BaseUrl]
