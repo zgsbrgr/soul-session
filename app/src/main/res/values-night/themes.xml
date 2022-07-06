@@ -21,7 +21,7 @@
         <item name="colorPrimary">@color/purple_200</item>
         <item name="colorPrimaryDark">@color/purple_700</item>
         <item name="colorAccent">@color/teal_200</item>
-        <item name="android:windowSplashScreenBackground">@color/splash_bg</item>
+        <item name="android:windowBackground">@color/splash_bg</item>
     </style>
 
 </resources>
