@@ -105,7 +105,7 @@ fun EpisodesScreen(
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Text(
-                                    text = "Soul Session Episodes",
+                                    text = "Soul Session Podcasts",
                                     style = MaterialTheme.typography.titleLarge,
                                     modifier = Modifier.padding(16.dp)
                                 )
