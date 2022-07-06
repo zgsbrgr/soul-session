@@ -88,6 +88,10 @@ class TestEpisodeDao : EpisodeDao {
     override suspend fun deleteEpisodes(ids: List<String>) {
         TODO("Not yet implemented")
     }
+
+    override suspend fun updateEpisode(id: String, thumbnail: String, title: String, date: String) {
+        TODO("Not yet implemented")
+    }
 }
 
 private fun EpisodeEntity.asEpisodeWithTopic() = EpisodeWithTopic(
