@@ -13,6 +13,7 @@ androidxDataStore = "1.0.0"
 androidxEspresso = "3.3.0"
 androidxHiltNavigationCompose = "1.0.0"
 androidxLifecycle = "2.5.0-beta01"
+androidxLifecycleRuntime = "2.6.0-alpha01"
 androidxMacroBenchmark = "1.1.0-rc02"
 androidxMedia = "1.6.0"
 androidxNavigation = "2.4.0-rc01"
@@ -75,6 +76,7 @@ androidx-dataStore-core = { group = "androidx.datastore", name = "datastore", ve
 androidx-dataStore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycleRuntime" }
 androidx-media = { group = "androidx.media", name = "media", version.ref= "androidxMedia"}
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 androidx-palette = { group = "androidx.palette", name = "palette-ktx", version.ref = "androidxPalette"}

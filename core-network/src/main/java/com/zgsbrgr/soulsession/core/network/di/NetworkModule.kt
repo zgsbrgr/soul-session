@@ -18,6 +18,8 @@ package com.zgsbrgr.soulsession.core.network.di
 
 import com.zgsbrgr.soulsession.core.network.SoulSessionNetwork
 import com.zgsbrgr.soulsession.core.network.api.RetrofitSoulSessionNetwork
+import com.zgsbrgr.soulsession.core.network.util.ConnectivityManagerNetworkMonitor
+import com.zgsbrgr.soulsession.core.network.util.NetworkMonitor
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -31,4 +33,9 @@ interface NetworkModule {
     fun bindsSoulSessionNetwork(
         soulSessionNetwork: RetrofitSoulSessionNetwork
     ): SoulSessionNetwork
+
+    @Binds
+    fun bindsNetworkMonitor(
+        networkMonitor: ConnectivityManagerNetworkMonitor
+    ): NetworkMonitor
 }

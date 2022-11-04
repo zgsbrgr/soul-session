@@ -40,7 +40,12 @@ class EpisodeRepositoryImpl @Inject constructor(
 
     override suspend fun getEpisodesStream(): Flow<List<Episode>> {
         return withContext(ioDispatcher) {
-            val networkEpisodes = network.getEpisodes()
+            val networkEpisodes = try {
+                network.getEpisodes()
+            } catch (e: Exception) {
+                emptyList()
+            }
+
             episodeDao.upsertEpisodes(
                 networkEpisodes.map {
                     it.asEntity()

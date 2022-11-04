@@ -29,21 +29,36 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.zgsbrgr.soulsession.R
+import com.zgsbrgr.soulsession.core.network.util.NetworkMonitor
 import com.zgsbrgr.soulsession.core.ui.theme.SoulSessionTheme
 import com.zgsbrgr.soulsession.navigation.SoulSessionNavHost
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
+    ExperimentalLifecycleComposeApi::class
+)
 @Composable
 fun SSessionApp(
     windowSizeClass: WindowSizeClass,
-    backDispatcher: OnBackPressedDispatcher
+    networkMonitor: NetworkMonitor,
+    backDispatcher: OnBackPressedDispatcher,
+    appState: SoulSessionAppState = rememberSoulSessionAppState(networkMonitor = networkMonitor)
 ) {
     SoulSessionTheme {
         val navController = rememberNavController()
@@ -52,12 +67,24 @@ fun SSessionApp(
 
         val currentDestination = navBackStackEntry?.destination
 
+        val snackbarHostState = remember { SnackbarHostState() }
+
         Surface(
             modifier = Modifier.fillMaxSize()
         ) {
             Scaffold(
-                modifier = Modifier
+                modifier = Modifier,
+                snackbarHost = { SnackbarHost(snackbarHostState) },
             ) { padding ->
+                val isOffline by appState.isOffline.collectAsStateWithLifecycle()
+
+                val notConnected = stringResource(R.string.not_connected)
+                LaunchedEffect(isOffline) {
+                    if (isOffline) snackbarHostState.showSnackbar(
+                        message = notConnected,
+                        duration = SnackbarDuration.Indefinite
+                    )
+                }
                 Row(
                     Modifier
                         .fillMaxSize()
@@ -65,6 +92,7 @@ fun SSessionApp(
                             WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)
                         )
                 ) {
+
                     SoulSessionNavHost(
                         windowSizeClass = windowSizeClass,
                         navController = navController,

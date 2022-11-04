@@ -35,6 +35,7 @@ dependencies {
 
     testImplementation(project(":core-testing"))
 
+    implementation(libs.androidx.core.ktx)
 
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
